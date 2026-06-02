@@ -1,0 +1,24 @@
+{
+  "name": "whatsapp-bot-ai",
+  "version": "1.0.0",
+  "description": "RAG chatbot TA dan yudisium untuk WhatsApp QR dengan Gemini dan Groq fallback",
+  "main": "server-v2.js",
+  "scripts": {
+    "start": "node server-v2.js",
+    "ingest:sample": "node scripts/ingest-sample-docs.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mammoth": "^1.12.0",
+    "multer": "^2.1.1",
+    "pdf-parse": "^2.4.5",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.34.7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

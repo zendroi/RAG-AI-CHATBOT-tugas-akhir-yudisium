@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Chatbot TA dan Yudisium</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f6f8;
+      color: #17202a;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #d9e0e7;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 76px;
+    }
+
+    h1 {
+      font-size: 24px;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4b5b68;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #b0bbc5;
+    }
+
+    .dot.ok {
+      background: #15803d;
+    }
+
+    main {
+      padding: 28px 0 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d9e0e7;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .panel + .panel {
+      margin-top: 18px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+      letter-spacing: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #34495e;
+      margin-bottom: 8px;
+    }
+
+    input[type="file"],
+    textarea {
+      width: 100%;
+      border: 1px solid #c9d3dc;
+      border-radius: 8px;
+      background: #fbfcfd;
+      color: #17202a;
+      font: inherit;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+    }
+
+    textarea {
+      min-height: 126px;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    textarea:focus,
+    input[type="file"]:focus {
+      outline: 2px solid #9cc7f2;
+      border-color: #2b6cb0;
+      background: #ffffff;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      background: #1f5f8b;
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: 700;
+      min-height: 40px;
+      padding: 0 16px;
+    }
+
+    button:hover {
+      background: #164765;
+    }
+
+    button:disabled {
+      background: #98a7b5;
+      cursor: wait;
+    }
+
+    .danger {
+      background: #b42318;
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    .danger:hover {
+      background: #8f1d14;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .meta {
+      color: #607080;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid #e1e7ec;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .metric span {
+      color: #607080;
+      font-size: 12px;
+    }
+
+    .document-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .document-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #e1e7ec;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+
+    .document-row strong {
+      display: block;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      margin-bottom: 4px;
+    }
+
+    .answer {
+      border: 1px solid #d9e0e7;
+      border-radius: 8px;
+      min-height: 130px;
+      padding: 14px;
+      line-height: 1.6;
+      background: #fbfcfd;
+      white-space: pre-wrap;
+    }
+
+    .qr-box {
+      display: none;
+      margin-top: 14px;
+      text-align: center;
+      border: 1px dashed #b9c7d4;
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfd;
+    }
+
+    .qr-box img {
+      width: min(300px, 100%);
+      height: auto;
+    }
+
+    .notice {
+      margin-top: 12px;
+      color: #5d6d7e;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 0;
+      }
+
+      .grid,
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div>
+        <h1>Admin Chatbot TA dan Yudisium</h1>
+        <p class="meta">WhatsApp QR scan, Gemini, dan RAG dokumen akademik.</p>
+      </div>
+      <div class="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">Memuat status...</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <section>
+        <div class="panel">
+          <h2>Status Sistem</h2>
+          <div class="status-grid">
+            <div class="metric">
+              <strong id="documentCount">0</strong>
+              <span>Dokumen</span>
+            </div>
+            <div class="metric">
+              <strong id="chunkCount">0</strong>
+              <span>Potongan RAG</span>
+            </div>
+            <div class="metric">
+              <strong id="geminiStatus">-</strong>
+              <span>Gemini</span>
+            </div>
+            <div class="metric">
+              <strong id="whatsappStatus">-</strong>
+              <span>WhatsApp QR</span>
+            </div>
+          </div>
+          <p class="notice" id="webhookInfo"></p>
+        </div>
+
+        <div class="panel">
+          <h2>Koneksi WhatsApp</h2>
+          <p class="meta" id="botStatusText">Memuat status bot...</p>
+          <div class="actions">
+            <button type="button" id="startBotBtn">Mulai Bot</button>
+            <button type="button" id="stopBotBtn" class="danger">Hentikan Bot</button>
+          </div>
+          <div class="qr-box" id="qrBox">
+            <p class="meta">Scan QR ini dari WhatsApp HP melalui menu Perangkat Tertaut.</p>
+            <img id="qrImage" alt="QR WhatsApp">
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Upload Dokumen</h2>
+          <form id="uploadForm">
+            <label for="documents">Dokumen PDF, DOCX, atau TXT</label>
+            <input id="documents" name="documents" type="file" accept=".pdf,.docx,.txt" multiple>
+            <div class="actions">
+              <button type="submit" id="uploadBtn">Upload</button>
+              <span class="meta" id="uploadMessage"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Dokumen Aktif</h2>
+          <div class="document-list" id="documentList"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel">
+          <h2>Tes Chatbot</h2>
+          <label for="question">Pertanyaan</label>
+          <textarea id="question" placeholder="Contoh: Apa saja syarat pendaftaran sidang tugas akhir?"></textarea>
+          <div class="actions">
+            <button id="askBtn" type="button">Kirim Tes</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Jawaban</h2>
+          <div class="answer" id="answer">Jawaban akan muncul di sini.</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
