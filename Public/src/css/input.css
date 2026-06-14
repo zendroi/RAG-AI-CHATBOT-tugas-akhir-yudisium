@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sidebar Default (Terbuka) */
+#sidebar {
+  width: 250px;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  position: fixed;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+}
+
+.main-content {
+  margin-left: 250px;
+  transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar.collapsed .group {
+  width: 56px;
+   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-content {
+  margin-left: 240px;
+  transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar.collapsed + .main-content {
+  margin-left: 56px;
+    transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar .sidebar-text {
+  display: block;
+   transition: display 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar.collapsed .sidebar-text {
+  display: none;
+  transition: display 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}

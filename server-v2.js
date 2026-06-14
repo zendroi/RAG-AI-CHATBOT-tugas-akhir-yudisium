@@ -10,6 +10,10 @@ const qrcodeTerminal = require('qrcode-terminal');
 const qrcode = require('qrcode');
 const RAGEngine = require('./Lib/rag');
 const DatasetManager = require('./Lib/dataset');
+const PagesManager = require('./Lib/pages');
+
+const RoutesManager = require('./routes');
+const KnowledgesServices = require('./services/KnowledgesSevices');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3001);
@@ -36,7 +40,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('Public'));
 
 const ragEngine = new RAGEngine();
+
 const datasetManager = new DatasetManager();
+const pagesManager = new PagesManager();
+const routesManager = new RoutesManager(app, path);
+
+const knowledgeFile = path.join(__dirname, 'knowledge.json');
+
+routesManager.init();
+routesManager.documents( ragEngine, datasetManager, upload);
+routesManager.knowledges( ragEngine, knowledgeFile,fs);
+
+
+
 const handledMessageIds = new Set();
 const conversationMemory = new Map();
 let waClient = null;
@@ -597,36 +613,13 @@ app.get('/api/status', (req, res) => {
     verifyToken: WEBHOOK_VERIFY_TOKEN
   });
 });
+app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/api/documents', (req, res) => {
-  res.json({
-    documents: datasetManager.getSourceDocuments(),
-    chunks: datasetManager.getAllDocuments().length
-  });
-});
 
-app.post('/api/documents/upload', upload.array('documents', 20), async (req, res) => {
-  try {
-    if (!req.files || !req.files.length) {
-      return res.status(400).json({ success: false, message: 'Pilih minimal satu dokumen.' });
-    }
-
-    const result = await datasetManager.ingestUploadedFiles(req.files);
-    ragEngine.clearCache();
-    res.json({ success: true, ...result });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
-app.delete('/api/documents/:id', (req, res) => {
-  try {
-    const result = datasetManager.deleteSourceDocument(req.params.id);
-    ragEngine.clearCache();
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
+app.get('/api/data-Pages', (req, res) => {
+    res.json({
+      pages: pagesManager.readPages(),
+    });
 });
 
 app.post('/api/chat/test', async (req, res) => {
@@ -636,6 +629,7 @@ app.post('/api/chat/test', async (req, res) => {
   const answer = await answerQuestion(question);
   res.json({ answer });
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);

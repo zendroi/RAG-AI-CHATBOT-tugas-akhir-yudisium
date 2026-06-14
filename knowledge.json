@@ -1,0 +1,57 @@
+{
+  "config": {
+    "source": "academic-documents.json"
+  },
+  "keywords": {
+    "tugasAkhir": [
+      "bimbingan ta",
+      "format laporan",
+      "plagiarisme",
+      "pengumpulan ta",
+      "dosen pembimbing",
+      "syarat tugas akhir",
+      "pengajuan judul",
+      "sidang ta",
+      "jadwal sidang",
+      "revisi ta"
+    ],
+    "yudisium": [
+      "syarat yudisium",
+      "dokumen yudisium",
+      "pendaftaran yudisium",
+      "toga",
+      "transkrip nilai",
+      "bebas pustaka",
+      "bebas administrasi",
+      "wisuda",
+      "kelulusan",
+      "jadwal yudisium"
+    ]
+  },
+  "responses": {
+    "tugasAkhir": {
+      "bimbingan ta": "Bimbingan TA dilakukan minimal 8 kali pertemuan dengan dosen pembimbing dan wajib didokumentasikan di logbook bimbingan. Logbook harus ditandatangani pembimbing setiap sesi.",
+      "format laporan": "Format laporan Tugas Akhir mengikuti panduan penulisan yang ditetapkan Telkom University Surabaya, mencakup cover, lembar pengesahan, abstrak, BAB I-V, daftar pustaka, dan lampiran. Template tersedia di portal akademik.",
+      "plagiarisme": "Laporan TA wajib memiliki tingkat kemiripan (similarity) di bawah 30% yang dibuktikan dengan hasil cek Turnitin atau iThenticate. Laporan dengan similarity di atas batas akan dikembalikan untuk direvisi.",
+      "pengumpulan ta": "Pengumpulan laporan TA dilakukan setelah sidang dan revisi disetujui pembimbing. Mahasiswa mengumpulkan hardcover, softcopy (CD/upload portal), dan bukti bebas pustaka ke bagian akademik.",
+      "dosen pembimbing": "Dosen pembimbing TA ditentukan oleh koordinator program studi berdasarkan topik yang diajukan mahasiswa. Mahasiswa dapat mengajukan preferensi pembimbing namun keputusan final ada di koordinator.",
+      "syarat tugas akhir": "Syarat mengambil Tugas Akhir di Telkom University Surabaya antara lain: telah menempuh minimal 120 SKS, IPK minimal 2.00, dan telah lulus mata kuliah prasyarat TA. Silakan cek Buku Panduan TA untuk informasi lengkap.",
+      "pengajuan judul": "Pengajuan judul Tugas Akhir dilakukan melalui I-GRACIAS. Mahasiswa mengajukan minimal 3 judul alternatif beserta latar belakang singkat untuk dinilai oleh koordinator TA.",
+      "sidang ta": "Sidang Tugas Akhir dapat dilaksanakan setelah mendapat persetujuan dari dosen pembimbing, menyelesaikan seluruh administrasi, dan mendaftar sidang melalui I-GRACIAS sesuai jadwal yang ditentukan.",
+      "jadwal sidang": "Jadwal sidang TA diumumkan melalui I-GRACIAS dan papan pengumuman akademik. Pastikan seluruh persyaratan administrasi dan persetujuan pembimbing sudah terpenuhi sebelum mendaftar sidang.",
+      "revisi ta": "Revisi laporan TA wajib diselesaikan maksimal 7 hari setelah sidang. Revisi yang telah disetujui pembimbing dan penguji harus dikumpulkan sebelum batas waktu agar nilai dapat diproses."
+    },
+    "yudisium": {
+      "syarat yudisium": "Syarat mengikuti yudisium di Telkom University Surabaya antara lain: telah lulus seluruh mata kuliah (0 SKS tersisa), IPK minimal 2.00, telah mengumpulkan laporan TA yang disahkan, dan bebas tanggungan administrasi serta pustaka.",
+      "dokumen yudisium": "Dokumen yang diperlukan untuk yudisium antara lain: fotokopi KTM, pas foto formal, bukti bebas pustaka, bukti bebas administrasi, transkrip nilai sementara, dan formulir pendaftaran yudisium dari bagian akademik.",
+      "pendaftaran yudisium": "Pendaftaran yudisium dilakukan melalui bagian akademik Telkom University Surabaya sesuai periode yang ditentukan. Mahasiswa wajib melengkapi seluruh dokumen persyaratan sebelum batas waktu pendaftaran.",
+      "toga": "Toga dan atribut wisuda dapat disewa atau dibeli melalui koperasi kampus Telkom University Surabaya. Informasi ukuran dan jadwal pengambilan toga diumumkan menjelang pelaksanaan wisuda.",
+      "transkrip nilai": "Transkrip nilai sementara dapat diambil di bagian akademik setelah seluruh nilai mata kuliah selesai diinput. Transkrip resmi akan diterbitkan setelah proses yudisium selesai.",
+      "bebas pustaka": "Surat bebas pustaka diperoleh dari perpustakaan Telkom University Surabaya setelah mahasiswa mengembalikan seluruh pinjaman buku dan tidak memiliki denda. Proses pengurusan dapat dilakukan langsung ke perpustakaan.",
+      "bebas administrasi": "Surat bebas administrasi diperoleh dari bagian keuangan setelah mahasiswa menyelesaikan seluruh tanggungan pembayaran termasuk UKT dan biaya lainnya. Hubungi bagian keuangan untuk informasi lebih lanjut.",
+      "wisuda": "Wisuda Telkom University Surabaya diselenggarakan setiap semester setelah proses yudisium selesai. Informasi jadwal, tempat, dan tata tertib wisuda diumumkan melalui portal akademik dan email mahasiswa.",
+      "kelulusan": "Status kelulusan mahasiswa ditetapkan setelah yudisium dan seluruh persyaratan akademik serta administrasi terpenuhi. Ijazah dan transkrip resmi dapat diambil di bagian akademik sesuai jadwal yang ditentukan.",
+      "jadwal yudisium": "Jadwal yudisium diselenggarakan setiap semester dan diumumkan melalui portal akademik dan I-GRACIAS. Pastikan memantau pengumuman resmi dari bagian akademik untuk tanggal pendaftaran dan pelaksanaan."
+    }
+  }
+}

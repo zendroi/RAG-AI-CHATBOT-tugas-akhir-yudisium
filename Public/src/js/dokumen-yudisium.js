@@ -129,38 +129,6 @@ async function refreshAll() {
   await Promise.all([loadStatus(), loadBotStatus(), loadDocuments()]);
 }
 
-startBotBtn.addEventListener('click', async () => {
-  startBotBtn.disabled = true;
-  setText(botStatusText, 'Memulai bot WhatsApp...');
-
-  try {
-    const response = await fetch('/api/bot/start', { method: 'POST' });
-    const data = await response.json();
-    setText(botStatusText, data.message || 'Bot dimulai.');
-    await loadBotStatus();
-  } catch (error) {
-    setText(botStatusText, `Gagal memulai bot: ${error.message}`);
-  } finally {
-    startBotBtn.disabled = false;
-  }
-});
-
-stopBotBtn.addEventListener('click', async () => {
-  stopBotBtn.disabled = true;
-  setText(botStatusText, 'Menghentikan bot WhatsApp...');
-
-  try {
-    const response = await fetch('/api/bot/stop', { method: 'POST' });
-    const data = await response.json();
-    setText(botStatusText, data.message || 'Bot dihentikan.');
-    await loadBotStatus();
-  } catch (error) {
-    setText(botStatusText, `Gagal menghentikan bot: ${error.message}`);
-  } finally {
-    stopBotBtn.disabled = false;
-  }
-});
-
 uploadForm.addEventListener('submit', async event => {
   event.preventDefault();
   const files = document.getElementById('documents').files;
@@ -203,49 +171,12 @@ documentList.addEventListener('click', async event => {
   await refreshAll();
 });
 
-askBtn.addEventListener('click', async () => {
-  const text = question.value.trim();
-  if (!text) {
-    setText(answer, 'Isi pertanyaan terlebih dahulu.');
-    return;
-  }
-
-  askBtn.disabled = true;
-  setText(answer, 'Memproses jawaban...');
-
-  try {
-    const response = await fetch('/api/chat/test', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: text })
-    });
-    const data = await response.json();
-    setText(answer, data.answer || data.message || 'Tidak ada jawaban.');
-  } catch (error) {
-    setText(answer, `Gagal memproses: ${error.message}`);
-  } finally {
-    askBtn.disabled = false;
-  }
-});
-
 refreshAll().catch(error => {
   statusDot.classList.remove('ok');
   setText(statusText, `Gagal memuat status: ${error.message}`);
 });
 
-
-
-
-function clearForm() {
-
-    document.getElementById('keyword').value = '';
-    document.getElementById('response').value = '';
-    document.getElementById('keyword').focus();
-}
-
 setInterval(() => {
   loadBotStatus().catch(() => {});
   loadStatus().catch(() => {});
 }, 5000);
-
-
