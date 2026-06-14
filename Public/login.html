@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Login - SHRUHH</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandPurple: "#1a0b2e",
+            accentViolet: "#a78bfa",
+          },
+          backgroundImage: {
+            "button-gradient":
+              "linear-gradient(to bottom, #b794f4, #805ad5)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      background: #1a0b2e;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .bg-abstract {
+      position: fixed;
+      inset: 0;
+      background-image: url("assets/download.jpeg");
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px);
+      transform: scale(1.1);
+      z-index: -1;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center text-white">
+
+  <div class="bg-abstract"></div>
+
+  <main class="w-full max-w-md px-6 py-12">
+    <section class="glass-card rounded-[40px] px-8 py-12">
+
+      <div class="text-center mb-8">
+        <svg
+          fill="none"
+          width="60"
+          height="60"
+          viewBox="0 0 100 100"
+          class="mx-auto mb-3"
+        >
+          <rect
+            x="35"
+            y="10"
+            width="15"
+            height="45"
+            rx="7.5"
+            transform="rotate(35 35 10)"
+            fill="#7c3aed"
+          />
+          <rect
+            x="50"
+            y="45"
+            width="15"
+            height="45"
+            rx="7.5"
+            transform="rotate(35 50 45)"
+            fill="#4c1d95"
+          />
+        </svg>
+
+        <h1 class="text-2xl font-semibold tracking-widest">
+          CHATBOT
+        </h1>
+
+        <h2 class="text-xl mt-4">
+          Welcome Back
+        </h2>
+      </div>
+
+      <!-- FORM LOGIN -->
+      <form id="loginForm" class="space-y-6">
+
+        <div>
+          <label class="block mb-2">
+            Email Address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            required
+            class="w-full rounded-xl bg-black/20 border border-white/20 px-4 py-3"
+          />
+        </div>
+
+        <div>
+          <label class="block mb-2">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            required
+            class="w-full rounded-xl bg-black/20 border border-white/20 px-4 py-3"
+          />
+
+          <a href="#" class="text-sm text-gray-300 mt-2 inline-block">
+            Forgot Password?
+          </a>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 transition"
+        >
+          Login
+        </button>
+
+      </form>
+
+      <!-- ERROR MESSAGE -->
+      <p
+        id="errorMsg"
+        class="text-red-400 text-center mt-4 hidden"
+      ></p>
+
+      <div class="text-center mt-8">
+        Are you a new member?
+        <a href="/register" class="font-bold">
+          Sign Up
+        </a>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="login.js"></script>
+
+</body>
+</html>

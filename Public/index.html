@@ -1,358 +1,284 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Chatbot TA dan Yudisium</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot TA dan Yudisium</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-    body {
-      min-height: 100vh;
-      background: #f4f6f8;
-      color: #17202a;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+  html, body {
+    height: 100%;
+  }
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #d9e0e7;
-    }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2d1b4d 0%, #1a0b2e 100%);
+    color: #f3eefc;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-    }
+  header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
 
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 76px;
-    }
+  .wrap {
+    width: min(820px, calc(100% - 32px));
+    margin: 0 auto;
+  }
 
-    h1 {
-      font-size: 24px;
-      letter-spacing: 0;
-      line-height: 1.2;
-    }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 70px;
+  }
 
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #4b5b68;
-      font-size: 14px;
-      white-space: nowrap;
-    }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #b0bbc5;
-    }
+  .brand .logo {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
 
-    .dot.ok {
-      background: #15803d;
-    }
+  .brand h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
 
-    main {
-      padding: 28px 0 40px;
-    }
+  .brand p {
+    font-size: 12px;
+    color: #c9b8ec;
+  }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 18px;
-      align-items: start;
-    }
+  .logout-link {
+    color: #c9b8ec;
+    font-size: 13px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 8px 14px;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
 
-    .panel {
-      background: #ffffff;
-      border: 1px solid #d9e0e7;
-      border-radius: 8px;
-      padding: 20px;
-    }
+  .logout-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
 
-    .panel + .panel {
-      margin-top: 18px;
-    }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    min-height: 0;
+  }
 
-    h2 {
-      font-size: 18px;
-      margin-bottom: 14px;
-      letter-spacing: 0;
-    }
+  .chat-panel {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+  }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: #34495e;
-      margin-bottom: 8px;
-    }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
 
-    input[type="file"],
-    textarea {
-      width: 100%;
-      border: 1px solid #c9d3dc;
-      border-radius: 8px;
-      background: #fbfcfd;
-      color: #17202a;
-      font: inherit;
-    }
+  .chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
 
-    input[type="file"] {
-      padding: 10px;
-    }
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+  }
 
-    textarea {
-      min-height: 126px;
-      padding: 12px;
-      resize: vertical;
-      line-height: 1.5;
-    }
+  .msg {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    line-height: 1.5;
+    font-size: 14px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
 
-    textarea:focus,
-    input[type="file"]:focus {
-      outline: 2px solid #9cc7f2;
-      border-color: #2b6cb0;
-      background: #ffffff;
-    }
+  .msg.bot {
+    align-self: flex-start;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 4px;
+  }
 
-    button {
-      border: 0;
-      border-radius: 8px;
-      background: #1f5f8b;
-      color: #ffffff;
-      cursor: pointer;
-      font-weight: 700;
-      min-height: 40px;
-      padding: 0 16px;
-    }
+  .msg.user {
+    align-self: flex-end;
+    background: linear-gradient(to bottom, #b794f4, #805ad5);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+  }
 
-    button:hover {
-      background: #164765;
-    }
+  .msg.bot.loading {
+    color: #c9b8ec;
+    font-style: italic;
+  }
 
-    button:disabled {
-      background: #98a7b5;
-      cursor: wait;
-    }
+  .empty-state {
+    text-align: center;
+    color: #c9b8ec;
+    font-size: 13px;
+    margin: auto;
+    padding: 40px 20px;
+  }
 
-    .danger {
-      background: #b42318;
-      min-height: 34px;
-      padding: 0 12px;
-      font-size: 13px;
-    }
+  .empty-state .logo {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    display: block;
+  }
 
-    .danger:hover {
-      background: #8f1d14;
-    }
+  .empty-state h2 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
+  .chat-input-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
 
-    .meta {
-      color: #607080;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+  .chat-input-bar textarea {
+    flex: 1;
+    resize: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #f3eefc;
+    font: inherit;
+    font-size: 14px;
+    padding: 12px 14px;
+    max-height: 120px;
+    line-height: 1.4;
+  }
 
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
+  .chat-input-bar textarea::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+  }
 
-    .metric {
-      border: 1px solid #e1e7ec;
-      border-radius: 8px;
-      padding: 12px;
-      background: #fbfcfd;
-    }
+  .chat-input-bar textarea:focus {
+    outline: none;
+    border-color: rgba(167, 139, 250, 0.6);
+    box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.25);
+    background: rgba(0, 0, 0, 0.3);
+  }
 
-    .metric strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 4px;
-    }
+  .chat-input-bar button {
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, #b794f4, #805ad5);
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    min-height: 46px;
+    padding: 0 22px;
+    transition: filter 0.2s, transform 0.1s;
+    flex-shrink: 0;
+  }
 
-    .metric span {
-      color: #607080;
-      font-size: 12px;
-    }
+  .chat-input-bar button:hover {
+    filter: brightness(1.1);
+  }
 
-    .document-list {
-      display: grid;
-      gap: 10px;
-    }
+  .chat-input-bar button:active {
+    transform: scale(0.98);
+  }
 
-    .document-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-      border: 1px solid #e1e7ec;
-      border-radius: 8px;
-      padding: 12px;
-      background: #fbfcfd;
-    }
+  .chat-input-bar button:disabled {
+    background: rgba(255, 255, 255, 0.15);
+    cursor: wait;
+  }
 
-    .document-row strong {
-      display: block;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-      margin-bottom: 4px;
+  @media (max-width: 600px) {
+    .msg {
+      max-width: 90%;
     }
-
-    .answer {
-      border: 1px solid #d9e0e7;
-      border-radius: 8px;
-      min-height: 130px;
-      padding: 14px;
-      line-height: 1.6;
-      background: #fbfcfd;
-      white-space: pre-wrap;
-    }
-
-    .qr-box {
-      display: none;
-      margin-top: 14px;
-      text-align: center;
-      border: 1px dashed #b9c7d4;
-      border-radius: 8px;
-      padding: 14px;
-      background: #fbfcfd;
-    }
-
-    .qr-box img {
-      width: min(300px, 100%);
-      height: auto;
-    }
-
-    .notice {
-      margin-top: 12px;
-      color: #5d6d7e;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 860px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 18px 0;
-      }
-
-      .grid,
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <header>
     <div class="wrap topbar">
-      <div>
-        <h1>Admin Chatbot TA dan Yudisium</h1>
-        <p class="meta">WhatsApp QR scan, Gemini, dan RAG dokumen akademik.</p>
+      <div class="brand">
+        <svg class="logo" fill="none" height="60" viewbox="0 0 100 100" width="60" xmlns="http://www.w3.org/2000/svg">
+          <rect fill="#7c3aed" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 35 10)" width="15" x="35" y="10"></rect>
+          <rect fill="#4c1d95" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 50 45)" width="15" x="50" y="45"></rect>
+        </svg>
+        <div>
+          <h1>SHRUHH CHATBOT</h1>
+          <p>Asisten TA dan Yudisium</p>
+        </div>
       </div>
-      <div class="status">
-        <span class="dot" id="statusDot"></span>
-        <span id="statusText">Memuat status...</span>
-      </div>
+      <a class="logout-link" href="#" id="logoutBtn">Logout</a>
     </div>
   </header>
 
   <main class="wrap">
-    <div class="grid">
-      <section>
-        <div class="panel">
-          <h2>Status Sistem</h2>
-          <div class="status-grid">
-            <div class="metric">
-              <strong id="documentCount">0</strong>
-              <span>Dokumen</span>
-            </div>
-            <div class="metric">
-              <strong id="chunkCount">0</strong>
-              <span>Potongan RAG</span>
-            </div>
-            <div class="metric">
-              <strong id="geminiStatus">-</strong>
-              <span>Gemini</span>
-            </div>
-            <div class="metric">
-              <strong id="whatsappStatus">-</strong>
-              <span>WhatsApp QR</span>
-            </div>
-          </div>
-          <p class="notice" id="webhookInfo"></p>
+    <div class="chat-panel">
+      <div class="chat-messages" id="chatMessages">
+        <div class="empty-state" id="emptyState">
+          <svg class="logo" fill="none" height="60" viewbox="0 0 100 100" width="60" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="#7c3aed" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 35 10)" width="15" x="35" y="10"></rect>
+            <rect fill="#4c1d95" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 50 45)" width="15" x="50" y="45"></rect>
+          </svg>
+          <h2>SHRUHH CHATBOT</h2>
+          <p>Tanyakan apa saja seputar Tugas Akhir, sidang, pembimbing, yudisium, kelulusan, dan administrasi akademik.</p>
         </div>
-
-        <div class="panel">
-          <h2>Koneksi WhatsApp</h2>
-          <p class="meta" id="botStatusText">Memuat status bot...</p>
-          <div class="actions">
-            <button type="button" id="startBotBtn">Mulai Bot</button>
-            <button type="button" id="stopBotBtn" class="danger">Hentikan Bot</button>
-          </div>
-          <div class="qr-box" id="qrBox">
-            <p class="meta">Scan QR ini dari WhatsApp HP melalui menu Perangkat Tertaut.</p>
-            <img id="qrImage" alt="QR WhatsApp">
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2>Upload Dokumen</h2>
-          <form id="uploadForm">
-            <label for="documents">Dokumen PDF, DOCX, atau TXT</label>
-            <input id="documents" name="documents" type="file" accept=".pdf,.docx,.txt" multiple>
-            <div class="actions">
-              <button type="submit" id="uploadBtn">Upload</button>
-              <span class="meta" id="uploadMessage"></span>
-            </div>
-          </form>
-        </div>
-
-        <div class="panel">
-          <h2>Dokumen Aktif</h2>
-          <div class="document-list" id="documentList"></div>
-        </div>
-      </section>
-
-      <section>
-        <div class="panel">
-          <h2>Tes Chatbot</h2>
-          <label for="question">Pertanyaan</label>
-          <textarea id="question" placeholder="Contoh: Apa saja syarat pendaftaran sidang tugas akhir?"></textarea>
-          <div class="actions">
-            <button id="askBtn" type="button">Kirim Tes</button>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2>Jawaban</h2>
-          <div class="answer" id="answer">Jawaban akan muncul di sini.</div>
-        </div>
-      </section>
+      </div>
+      <form class="chat-input-bar" id="chatForm">
+        <textarea id="chatInput" placeholder="Tulis pertanyaan kamu..." rows="1" required></textarea>
+        <button type="submit" id="sendBtn">Kirim</button>
+      </form>
     </div>
   </main>
 
-  <script src="app.js"></script>
+  <script src="home.js"></script>
 </body>
 </html>

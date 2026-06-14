@@ -33,6 +33,9 @@ const upload = multer({
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/Public/login.html');
+});
 app.use(express.static('Public'));
 
 const ragEngine = new RAGEngine();
@@ -641,3 +644,59 @@ app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
   console.log(`Webhook WhatsApp: http://localhost:${PORT}/webhook`);
 });
+
+// ===================================================
+// CONTOH PENAMBAHAN KE server-v2.js KAMU
+// Copy bagian-bagian ini ke server-v2.js yang sudah ada
+// ===================================================
+const session = require('express-session');
+
+const { connectDB } = require('./db');
+const authRoutes = require('./routes/auth');
+const { requireAuth, requireAdmin } = require('./middleware/authMiddleware');
+
+
+
+// Koneksi ke MySQL
+connectDB();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Session
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'rahasia',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 hari
+}));
+
+// Routes auth (register, login, logout, me)
+app.use('/api/auth', authRoutes);
+
+// ===== ROUTING HALAMAN =====
+// Halaman login jadi default ('/')
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'register.html'));
+});
+
+// Homepage, hanya bisa diakses kalau sudah login
+app.get('/home', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'index.html'));
+});
+
+// Admin dashboard, hanya bisa diakses admin
+app.get('/admin', requireAdmin, (req, res) => {
+  res.sendFile(path.join(__dirname, 'Public', 'admin.html'));
+});
+
+// Serve file static (CSS, JS, gambar, dll)
+app.use(express.static(path.join(__dirname, 'Public')));
+
+
+
