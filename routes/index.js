@@ -87,6 +87,9 @@ class Routes {
         this.app.delete('/api/knowledge/keyword/:kategori/:keyword', (req, res) => {
            knowledgeController.destroy(req, res, ragEngine, fs, knowledgeFile)
         });
+        this.app.post('/api/bot/ask', async (req, res) => {
+            await faqController.askBot(req, res, fs, knowledgeFile);
+        });
     }
 }
 
