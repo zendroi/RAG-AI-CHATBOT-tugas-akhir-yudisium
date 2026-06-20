@@ -1,10 +1,12 @@
 
 const DashboardController = require('../controllers/DashboardController');
+const FaqController = require('../controllers/FaqController');
 const KnowledgeController = require('../controllers/KnowledgeController');
 const YudisiumController = require('../controllers/YudisiumController');
 const TAController = require('../controllers/TugasAkhirController');
 
 const dashboardController = new DashboardController();
+const faqController = new FaqController();
 const knowledgeController = new KnowledgeController();
 const yudisiumController = new YudisiumController();
 const taController = new TAController();
@@ -94,4 +96,3 @@ class Routes {
 }
 
 module.exports = Routes;
-

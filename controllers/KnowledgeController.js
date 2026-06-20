@@ -1,6 +1,7 @@
 
 const KnowledgesServices = require('../services/KnowledgesSevices');
 const knowledgesServices = new KnowledgesServices();
+const ALLOWED_KATEGORI = new Set(['tugasAkhir', 'yudisium']);
 
 class KnowledgeController {
     index(req, res, path) {
@@ -12,6 +13,9 @@ class KnowledgeController {
             const { keyword, response, kategori } = req.body;
             if (!keyword || !response) {
                 return res.status(400).json({ message: 'Keyword dan response harus diisi', success: false });
+            }
+            if (!ALLOWED_KATEGORI.has(kategori)) {
+                return res.status(400).json({ message: 'Kategori tidak valid', success: false });
             }
             const knowledge = knowledgesServices.loadKnowledge(fs, knowledgeFile);
 
@@ -42,8 +46,7 @@ class KnowledgeController {
             }
         } catch (error) {
             res.status(500).json({
-                message: 'Error: ' + error.message, success:
-                    false
+                message: 'Error: ' + error.message, success: false
             });
         }
     }
@@ -55,8 +58,7 @@ class KnowledgeController {
 
         } catch (error) {
             res.status(500).json({
-                message: 'Error: ' + error.message, success:
-                    false
+                message: 'Error: ' + error.message, success: false
             });
         }
     }
@@ -68,6 +70,9 @@ class KnowledgeController {
             const knowledge = knowledgesServices.loadKnowledge(fs, knowledgeFile);
 
             const kategori = req.params.kategori;
+            if (!ALLOWED_KATEGORI.has(kategori)) {
+                return res.status(400).json({ message: 'Kategori tidak valid', success: false });
+            }
             if (knowledge.responses[kategori]?.[keyword]) {
                 delete knowledge.responses[kategori][keyword];
 
@@ -94,8 +99,7 @@ class KnowledgeController {
             }
         } catch (error) {
             res.status(500).json({
-                message: 'Error: ' + error.message, success:
-                    false
+                message: 'Error: ' + error.message, success: false
             });
         }
     }

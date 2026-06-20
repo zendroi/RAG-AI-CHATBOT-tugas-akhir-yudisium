@@ -43,7 +43,6 @@ function getActiveBot() {
 function switchTab(tab) {
 
     const title = document.getElementById('text-title');
-    const valueContent = title.textContent.trim()
     title.textContent = `Basis Pengetahuan ${tab.charAt(0).toUpperCase() + tab.slice(1)}`;
     document.querySelectorAll('.tab').forEach(t =>
         t.classList.remove('active'));
@@ -81,7 +80,7 @@ async function loadKeywords(kategori = 'tugasAkhir') {
         if (Object.keys(botResponses).length === 0) {
             container.innerHTML = `
                 <p class="text-gray-400 text-center py-10 w-full">
-                    Belum ada keyword untuk <strong>${bot}</strong>. Tambahkan keyword baru!
+                    Belum ada keyword untuk <strong>${kategori}</strong>. Tambahkan keyword baru!
                 </p>`;
             return;
         }
@@ -211,4 +210,3 @@ async function refreshAll() {
 setInterval(() => {
     loadStatus().catch(() => { });
 }, 5000);
-
