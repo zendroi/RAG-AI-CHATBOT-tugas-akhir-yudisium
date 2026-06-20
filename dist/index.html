@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Chatbot TA dan Yudisium</title>
+    <script type="module" crossorigin src="/assets/layout-BFBprRwP.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/style-D6RUN4ku.css">
+  </head>
+  <body>
+    <div class="flex">
+      <div id="sidebar"></div>
+      <div class="bg-slate-100 main-content">
+        <div id="navbar"></div>
+        <main class="wrap">
+          <div class="grid">
+            <section>
+              <div class="panel">
+                <h2>Status Sistem</h2>
+                <div class="status-grid">
+                  <div class="metric">
+                    <strong id="documentCount">0</strong>
+                    <span>Dokumen</span>
+                  </div>
+                  <div class="metric">
+                    <strong id="chunkCount">0</strong>
+                    <span>Potongan RAG</span>
+                  </div>
+                  <div class="metric">
+                    <strong id="geminiStatus">-</strong>
+                    <span>Gemini</span>
+                  </div>
+                  <div class="metric">
+                    <strong id="whatsappStatus">-</strong>
+                    <span>WhatsApp QR</span>
+                  </div>
+                </div>
+                <p class="notice" id="webhookInfo"></p>
+              </div>
+
+              <div class="panel">
+                <h2>Koneksi WhatsApp</h2>
+                <p class="meta" id="botStatusText">Memuat status bot...</p>
+                <div class="actions">
+                  <button type="button" id="startBotBtn">Mulai Bot</button>
+                  <button type="button" id="stopBotBtn" class="danger">
+                    Hentikan Bot
+                  </button>
+                </div>
+                <div class="qr-box" id="qrBox">
+                  <p class="meta">
+                    Scan QR ini dari WhatsApp HP melalui menu Perangkat Tertaut.
+                  </p>
+                  <img id="qrImage" alt="QR WhatsApp" />
+                </div>
+              </div>
+
+              <div class="panel">
+                <h2>Upload Dokumen</h2>
+                <form id="uploadForm">
+                  <label for="documents">Dokumen PDF, DOCX, atau TXT</label>
+                  <input
+                    id="documents"
+                    name="documents"
+                    type="file"
+                    accept=".pdf,.docx,.txt"
+                    multiple
+                  />
+                  <div class="actions">
+                    <button type="submit" id="uploadBtn">Upload</button>
+                    <span class="meta" id="uploadMessage"></span>
+                  </div>
+                </form>
+              </div>
+
+              <div class="panel">
+                <h2>Dokumen Aktif</h2>
+                <div class="document-list" id="documentList"></div>
+              </div>
+            </section>
+
+            <section>
+              <div class="panel">
+                <h2>Tes Chatbot</h2>
+                <label for="question">Pertanyaan</label>
+                <textarea
+                  id="question"
+                  placeholder="Contoh: Apa saja syarat pendaftaran sidang tugas akhir?"
+                ></textarea>
+                <div class="actions">
+                  <button id="askBtn" type="button">Kirim Tes</button>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h2>Jawaban</h2>
+                <div class="answer" id="answer">
+                  Jawaban akan muncul di sini.
+                </div>
+              </div>
+            </section>
+
+      
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Chatbot TA dan Yudisium</title>
+    <link rel="stylesheet" href="../src/css/output.css" />
+    <link rel="stylesheet" href="../src/css/style.css" />
+    <link rel="stylesheet" href="../src/css/knowledge.css" />
+
+    <style>
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+      .tab {
+        background-color: rgb(231, 231, 231);
+        color: black;
+      }
+
+      .tab:hover {
+        background-color: rgb(51, 1, 1);
+        color: white;
+      }
+
+      .tab.active {
+        background-color: rgb(76, 26, 42);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex">
+      <div id="sidebar"></div>
+      <div class="bg-slate-100 main-content w-full">
+        <div id="navbar"></div>
+        <main class="wrap">
+          <div class="tabs mb-4">
+            <button
+              class="tab active"
+              data-bot="tugasAkhir"
+              onclick="switchTab('tugasAkhir')"
+            >
+              Tugas Akhir
+            </button>
+            <button
+              class="tab"
+              data-bot="yudisium"
+              onclick="switchTab('yudisium')"
+            >
+              Yudisium
+            </button>
+          </div>
+
+          <section
+            class="w-full p-6 bg-white border border-gray-200 rounded-xl shadow-sm"
+          >
+            <div id="knowledge">
+              <div class="mb-6">
+                <h2 id="text-title" class="text-2xl font-bold text-gray-800">
+                  Basis Pengetahuan Tugas Akhir
+                </h2>
+                <p class="text-sm text-gray-500">
+                  Kelola kata kunci dan respons otomatis chatbot Anda
+                </p>
+              </div>
+
+              <div class="space-y-5">
+                <div class="form-group">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2"
+                    >Kata Kunci (dipisahkan koma)</label
+                  >
+                  <input
+                    type="text"
+                    id="keyword"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-950 focus:border-rose-950 transition-all outline-none"
+                    placeholder="cth: halo, menu, bantuan"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2"
+                    >Respons</label
+                  >
+                  <textarea
+                    id="response"
+                    rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-950 focus:border-rose-950 transition-all outline-none"
+                    placeholder="Tuliskan respons otomatis..."
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="flex gap-3 mt-6">
+                <button
+                  onclick="saveKeyword()"
+                  id="submitBtn"
+                  class="bg-rose-950 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-md shadow-blue-200"
+                >
+                  Simpan Kata Kunci
+                </button>
+                <button
+                  onclick="clearForm()"
+                  class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-medium transition-colors"
+                >
+                  Bersihkan
+                </button>
+              </div>
+
+              <div class="mt-8 pt-6 border-t border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                  Daftar Kata Kunci
+                </h3>
+                <div
+                  id="tugasAkhir"
+                  class="flex flex-wrap space-y-2 tab-pane active"
+                ></div>
+
+                <div id="yudisium" class="flex flex-wrap gap-2 tab-pane">
+                  <h1>halo</h1>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="../src/js/layout.js"></script>
+
+    <script src="../src/js/knowledge.js"></script>
+  </body>
+</html>
