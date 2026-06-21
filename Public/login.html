@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="/assets/download.jpeg" fetchpriority="high">
+  <script src="/src/js/page-transition.js"></script>
 
-  <title>Login - SHRUHH</title>
+  <title>Login - SHRUHH SSC Chatbot</title>
 
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 
@@ -25,17 +28,27 @@
     };
   </script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <style>
     body {
-      background: #1a0b2e;
+      /* No background-color: .bg-abstract is a negative z-index child and
+         body's own opaque bg would paint over it. html's bg is the fallback. */
       min-height: 100vh;
       overflow: hidden;
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: -0.01em;
     }
 
     .bg-abstract {
       position: fixed;
       inset: 0;
-      background-image: url("assets/download.jpeg");
+      background-image:
+        radial-gradient(900px 600px at 12% -5%, rgba(167, 139, 250, 0.22), transparent 60%),
+        radial-gradient(700px 600px at 100% 105%, rgba(124, 58, 237, 0.22), transparent 55%),
+        url("assets/download.jpeg");
       background-size: cover;
       background-position: center;
       filter: blur(5px);
@@ -44,14 +57,40 @@
     }
 
     .glass-card {
+      position: relative;
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 24px 70px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(167, 139, 250, 0.08);
     }
 
     input::placeholder {
       color: rgba(255, 255, 255, 0.5);
+    }
+
+    input[type="email"], input[type="password"] {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    input[type="email"]:focus, input[type="password"]:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: rgba(167, 139, 250, 0.6);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    button[type="submit"] {
+      box-shadow: 0 10px 28px -6px rgba(124, 58, 237, 0.55);
+      transition: filter 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+    }
+
+    button[type="submit"]:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 14px 34px -6px rgba(124, 58, 237, 0.7);
+    }
+
+    button[type="submit"]:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
@@ -92,7 +131,7 @@
         </svg>
 
         <h1 class="text-2xl font-semibold tracking-widest">
-          CHATBOT
+          SHRUHH SSC CHATBOT
         </h1>
 
         <h2 class="text-xl mt-4">

@@ -3,124 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Chatbot TA dan Yudisium</title>
+    <link rel="icon" href="data:,">
+    <link rel="preload" as="image" href="/assets/download.jpeg" fetchpriority="high">
+    <script src="/src/js/page-transition.js"></script>
+    <title>Knowledge Base — Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <link rel="stylesheet" href="../src/css/output.css" />
     <link rel="stylesheet" href="../src/css/style.css" />
     <link rel="stylesheet" href="../src/css/knowledge.css" />
-
-    <style>
-      .tab-pane {
-        display: none;
-      }
-      .tab-pane.active {
-        display: block;
-      }
-      .tab {
-        background-color: rgb(231, 231, 231);
-        color: black;
-      }
-
-      .tab:hover {
-        background-color: rgb(51, 1, 1);
-        color: white;
-      }
-
-      .tab.active {
-        background-color: rgb(76, 26, 42);
-        color: white;
-      }
-    </style>
+    <link rel="stylesheet" href="../src/css/dark-theme.css" />
   </head>
   <body>
+    <div class="bg-abstract"></div>
     <div class="flex">
       <div id="sidebar"></div>
       <div class="bg-slate-100 main-content w-full">
-        <div id="navbar"></div>
+        <header>
+          <div class="wrap topbar">
+            <div>
+              <h1>Knowledge Base</h1>
+              <p class="meta">Kelola dokumen sumber chatbot (upload, ganti file, hapus).</p>
+            </div>
+            <div class="status">
+              <span class="dot" id="statusDot"></span>
+              <span id="statusText">Memuat status...</span>
+            </div>
+          </div>
+        </header>
         <main class="wrap">
           <div class="tabs mb-4">
-            <button
-              class="tab active"
-              data-bot="tugasAkhir"
-              onclick="switchTab('tugasAkhir')"
-            >
-              Tugas Akhir
-            </button>
-            <button
-              class="tab"
-              data-bot="yudisium"
-              onclick="switchTab('yudisium')"
-            >
-              Yudisium
-            </button>
+            <button class="tab active" data-category="umum" onclick="switchTab('umum')">Umum</button>
+            <button class="tab" data-category="tugasAkhir" onclick="switchTab('tugasAkhir')">Tugas Akhir</button>
+            <button class="tab" data-category="yudisium" onclick="switchTab('yudisium')">Yudisium</button>
           </div>
 
-          <section
-            class="w-full p-6 bg-white border border-gray-200 rounded-xl shadow-sm"
-          >
+          <section class="w-full p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
             <div id="knowledge">
               <div class="mb-6">
                 <h2 id="text-title" class="text-2xl font-bold text-gray-800">
-                  Basis Pengetahuan Tugas Akhir
+                  Knowledge Base — Umum
                 </h2>
                 <p class="text-sm text-gray-500">
-                  Kelola kata kunci dan respons otomatis chatbot Anda
+                  Halaman ini satu-satunya tempat kelola dokumen sumber chatbot (upload, ganti file, hapus).
+                  Pilih tab kategori (Umum/Tugas Akhir/Yudisium), lalu kelola dokumennya di bawah.
                 </p>
               </div>
 
               <div class="space-y-5">
-                <div class="form-group">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2"
-                    >Kata Kunci (dipisahkan koma)</label
-                  >
+                <form id="uploadForm" class="form-group">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Dokumen (PDF, DOCX, TXT, XLSX, gambar)</label>
+                  <input
+                    type="file"
+                    id="documents"
+                    name="documents"
+                    accept=".pdf,.docx,.txt,.xlsx,.xls,.png,.jpg,.jpeg,.webp"
+                    multiple
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
+                  />
+                  <label class="block text-sm font-semibold text-gray-700 mb-2 mt-4">Sub-kategori (folder)</label>
                   <input
                     type="text"
-                    id="keyword"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-950 focus:border-rose-950 transition-all outline-none"
-                    placeholder="cth: halo, menu, bantuan"
+                    id="subCategory"
+                    name="subCategory"
+                    list="subCategoryOptions"
+                    placeholder="cth: Pendaftaran Sidang Tugas Akhir"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
                   />
-                </div>
-
-                <div class="form-group">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2"
-                    >Respons</label
-                  >
-                  <textarea
-                    id="response"
-                    rows="4"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-950 focus:border-rose-950 transition-all outline-none"
-                    placeholder="Tuliskan respons otomatis..."
-                  ></textarea>
-                </div>
-              </div>
-
-              <div class="flex gap-3 mt-6">
-                <button
-                  onclick="saveKeyword()"
-                  id="submitBtn"
-                  class="bg-rose-950 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-md shadow-blue-200"
-                >
-                  Simpan Kata Kunci
-                </button>
-                <button
-                  onclick="clearForm()"
-                  class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-medium transition-colors"
-                >
-                  Bersihkan
-                </button>
+                  <datalist id="subCategoryOptions"></datalist>
+                  <div class="flex gap-3 mt-4">
+                    <button
+                      type="submit"
+                      id="submitBtn"
+                      class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-md shadow-indigo-200"
+                    >
+                      Upload Dokumen
+                    </button>
+                    <span id="uploadMessage" class="text-sm text-gray-500 self-center"></span>
+                  </div>
+                </form>
               </div>
 
               <div class="mt-8 pt-6 border-t border-gray-100">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                  Daftar Kata Kunci
-                </h3>
-                <div
-                  id="tugasAkhir"
-                  class="flex flex-wrap space-y-2 tab-pane active"
-                ></div>
-
-                <div id="yudisium" class="flex flex-wrap gap-2 tab-pane">
-                  <h1>halo</h1>
+                <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+                  <h3 class="text-lg font-semibold text-gray-800">
+                    Daftar Dokumen
+                  </h3>
+                  <button
+                    type="button"
+                    id="reextractBtn"
+                    title="Baca ulang semua file dengan mesin ekstraksi terbaru (OCR teks, tabel, dan gambar)"
+                    class="btn-secondary text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-1.5"
+                  >
+                    <i class="ti ti-refresh"></i> Proses Ulang Semua
+                  </button>
                 </div>
+                <span id="reextractMessage" class="text-sm text-gray-500 block mb-3"></span>
+                <div id="sourceList" class="flex flex-col gap-2 w-full"></div>
               </div>
             </div>
           </section>

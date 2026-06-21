@@ -40,12 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("token", data.token);
       }
 
-      // Redirect berdasarkan role
-      if (data.user?.role === "admin") {
-        window.location.href = "/admin";
-      } else {
-        window.location.href = "/home";
-      }
+      // Redirect berdasarkan role (fade out first so it matches link-click nav)
+      const target = data.user?.role === "admin" ? "/admin" : "/chat";
+      document.body.classList.remove("page-ready");
+      setTimeout(() => { window.location.href = target; }, 180);
 
     } catch (error) {
       console.error(error);

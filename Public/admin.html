@@ -3,290 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="/assets/download.jpeg" fetchpriority="high">
+  <script src="/src/js/page-transition.js"></script>
   <title>Admin Chatbot TA dan Yudisium</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #2d1b4d 0%, #1a0b2e 100%);
-      color: #f3eefc;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    header {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 76px;
-    }
-
-    h1 {
-      font-size: 24px;
-      letter-spacing: 0;
-      line-height: 1.2;
-      color: #ffffff;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #c9b8ec;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .dot.ok {
-      background: #34d399;
-    }
-
-    main {
-      padding: 28px 0 40px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .panel + .panel {
-      margin-top: 18px;
-    }
-
-    h2 {
-      font-size: 18px;
-      margin-bottom: 14px;
-      letter-spacing: 0;
-      color: #ffffff;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: #c9b8ec;
-      margin-bottom: 8px;
-    }
-
-    input[type="file"],
-    textarea {
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.2);
-      color: #f3eefc;
-      font: inherit;
-    }
-
-    input[type="file"] {
-      padding: 10px;
-    }
-
-    textarea {
-      min-height: 126px;
-      padding: 12px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    textarea::placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
-
-    textarea:focus,
-    input[type="file"]:focus {
-      outline: none;
-      border-color: rgba(167, 139, 250, 0.6);
-      box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.25);
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      background: linear-gradient(to bottom, #b794f4, #805ad5);
-      color: #ffffff;
-      cursor: pointer;
-      font-weight: 700;
-      min-height: 40px;
-      padding: 0 16px;
-      transition: filter 0.2s, transform 0.1s;
-    }
-
-    button:hover {
-      filter: brightness(1.1);
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    button:disabled {
-      background: rgba(255, 255, 255, 0.15);
-      cursor: wait;
-    }
-
-    .danger {
-      background: linear-gradient(to bottom, #f87171, #b91c1c);
-      min-height: 34px;
-      padding: 0 12px;
-      font-size: 13px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-
-    .meta {
-      color: #c9b8ec;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .metric {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 12px;
-      background: rgba(0, 0, 0, 0.18);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 4px;
-      color: #ffffff;
-    }
-
-    .metric span {
-      color: #c9b8ec;
-      font-size: 12px;
-    }
-
-    .document-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .document-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 12px;
-      background: rgba(0, 0, 0, 0.18);
-    }
-
-    .document-row strong {
-      display: block;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-      margin-bottom: 4px;
-      color: #ffffff;
-    }
-
-    .answer {
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      min-height: 130px;
-      padding: 14px;
-      line-height: 1.6;
-      background: rgba(0, 0, 0, 0.18);
-      white-space: pre-wrap;
-      color: #f3eefc;
-    }
-
-    .qr-box {
-      display: none;
-      margin-top: 14px;
-      text-align: center;
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      border-radius: 10px;
-      padding: 14px;
-      background: rgba(0, 0, 0, 0.18);
-    }
-
-    .qr-box img {
-      width: min(300px, 100%);
-      height: auto;
-      border-radius: 8px;
-    }
-
-    .notice {
-      margin-top: 12px;
-      color: #c9b8ec;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 860px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 18px 0;
-      }
-
-      .grid,
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="./src/css/output.css" />
+  <link rel="stylesheet" href="./src/css/style.css" />
+  <link rel="stylesheet" href="./src/css/dark-theme.css" />
 </head>
 <body>
-  <header>
+  <div class="bg-abstract"></div>
+  <div class="flex">
+    <div id="sidebar"></div>
+    <div class="main-content w-full" style="min-width: 0;">
+      <header>
     <div class="wrap topbar">
       <div>
-        <h1>Admin Chatbot TA dan Yudisium</h1>
-        <p class="meta">WhatsApp QR scan, Gemini, dan RAG dokumen akademik.</p>
+        <h1>Dashboard</h1>
+        <p class="meta">Ringkasan sistem chatbot. Untuk kelola dokumen, buka menu <strong>Knowledge Base</strong> di sidebar.</p>
       </div>
       <div class="status">
         <span class="dot" id="statusDot"></span>
@@ -296,80 +31,49 @@
   </header>
 
   <main class="wrap">
-    <div class="grid">
+    <div class="panel">
+      <h2>Status Sistem</h2>
+      <div class="status-grid">
+        <div class="metric">
+          <strong id="documentCount">0</strong>
+          <span>Dokumen</span>
+        </div>
+        <div class="metric">
+          <strong id="chunkCount">0</strong>
+          <span>Potongan RAG</span>
+        </div>
+        <div class="metric">
+          <strong id="geminiStatus">-</strong>
+          <span>Gemini</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top: 18px;">
       <section>
         <div class="panel">
-          <h2>Status Sistem</h2>
-          <div class="status-grid">
-            <div class="metric">
-              <strong id="documentCount">0</strong>
-              <span>Dokumen</span>
-            </div>
-            <div class="metric">
-              <strong id="chunkCount">0</strong>
-              <span>Potongan RAG</span>
-            </div>
-            <div class="metric">
-              <strong id="geminiStatus">-</strong>
-              <span>Gemini</span>
-            </div>
-            <div class="metric">
-              <strong id="whatsappStatus">-</strong>
-              <span>WhatsApp QR</span>
-            </div>
-          </div>
-          <p class="notice" id="webhookInfo"></p>
-        </div>
-
-        <div class="panel">
-          <h2>Koneksi WhatsApp</h2>
-          <p class="meta" id="botStatusText">Memuat status bot...</p>
-          <div class="actions">
-            <button type="button" id="startBotBtn">Mulai Bot</button>
-            <button type="button" id="stopBotBtn" class="danger">Hentikan Bot</button>
-          </div>
-          <div class="qr-box" id="qrBox">
-            <p class="meta">Scan QR ini dari WhatsApp HP melalui menu Perangkat Tertaut.</p>
-            <img id="qrImage" alt="QR WhatsApp">
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2>Upload Dokumen</h2>
-          <form id="uploadForm">
-            <label for="documents">Dokumen PDF, DOCX, atau TXT</label>
-            <input id="documents" name="documents" type="file" accept=".pdf,.docx,.txt" multiple>
-            <div class="actions">
-              <button type="submit" id="uploadBtn">Upload</button>
-              <span class="meta" id="uploadMessage"></span>
-            </div>
-          </form>
-        </div>
-
-        <div class="panel">
-          <h2>Dokumen Aktif</h2>
-          <div class="document-list" id="documentList"></div>
-        </div>
-      </section>
-
-      <section>
-        <div class="panel">
-          <h2>Tes Chatbot</h2>
+          <h2>Uji Coba Chatbot</h2>
+          <p class="hint" style="margin-bottom: 14px;">Coba tanya seperti mahasiswa untuk memastikan jawaban bot sudah benar sebelum dipublikasikan.</p>
           <label for="question">Pertanyaan</label>
           <textarea id="question" placeholder="Contoh: Apa saja syarat pendaftaran sidang tugas akhir?"></textarea>
           <div class="actions">
             <button id="askBtn" type="button">Kirim Tes</button>
           </div>
         </div>
+      </section>
 
+      <section>
         <div class="panel">
-          <h2>Jawaban</h2>
+          <h2>Jawaban Bot</h2>
           <div class="answer" id="answer">Jawaban akan muncul di sini.</div>
         </div>
       </section>
     </div>
   </main>
+    </div>
+  </div>
 
+  <script src="./src/js/layout.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

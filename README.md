@@ -1,12 +1,15 @@
 # RAG AI Chatbot TA dan Yudisium
 
-Chatbot RAG berbahasa Indonesia untuk membantu mahasiswa bertanya seputar Tugas Akhir, sidang TA, pembimbing, yudisium, kelulusan, dan administrasi akademik terkait. Bot berjalan di WhatsApp melalui QR scan (`whatsapp-web.js`), memakai Gemini sebagai model utama, dan Groq sebagai fallback jika Gemini terkena quota/rate limit.
+Chatbot web RAG berbahasa Indonesia untuk membantu mahasiswa bertanya seputar Tugas Akhir, sidang TA, pembimbing, yudisium, kelulusan, dan administrasi akademik terkait. Bot tertanam di homepage web (login mahasiswa), memakai Gemini sebagai model utama, dan Groq sebagai fallback jika Gemini terkena quota/rate limit.
 
 ## Fitur
 
-- Chatbot WhatsApp dengan scan QR.
-- Dashboard admin untuk upload dokumen PDF, DOCX, atau TXT.
-- RAG dari dokumen akademik lokal.
+- Chatbot web (widget chat di homepage, perlu login).
+- Auth + role admin/user (MySQL, session).
+- Dashboard admin untuk CRUD Knowledge Base (upload/hapus/kategori dokumen PDF, DOCX, TXT).
+- RAG (TF-IDF) dari dokumen akademik lokal.
+- Document delivery: deteksi permintaan dokumen ("minta template buku TA") lalu balas link unduhan.
+- Smart bot checking: cek kelayakan TA/sidang TA/yudisium berdasarkan rule terstruktur.
 - Jawaban dibatasi hanya seputar TA dan yudisium.
 - Sumber dokumen hanya ditampilkan jika pengguna memintanya.
 - Fallback Groq otomatis jika Gemini error/quota.
@@ -33,30 +36,27 @@ GEMINI_API_KEY=isi_api_key_gemini
 GROQ_API_KEY=isi_api_key_groq
 ```
 
+Buat database MySQL dan jalankan migrasi:
+
+```bash
+mysql -u root -p nama_database < schema.sql
+```
+
 Jalankan server:
 
 ```bash
 npm start
 ```
 
-Buka dashboard:
+Buka aplikasi:
 
 ```text
 http://localhost:3001
 ```
 
-## Menghubungkan WhatsApp
+## Mengelola Dokumen (Knowledge Base)
 
-1. Buka dashboard.
-2. Klik **Mulai Bot** pada panel Koneksi WhatsApp.
-3. Scan QR dari WhatsApp HP melalui **Perangkat Tertaut**.
-4. Setelah status terhubung, bot akan membalas pesan pribadi yang masuk.
-
-Folder `.wwebjs_auth/` menyimpan sesi login dan tidak boleh di-commit.
-
-## Mengelola Dokumen
-
-Upload dokumen dari dashboard admin. Format yang didukung:
+Upload dokumen dari `/knowledge` (admin), pilih kategori Tugas Akhir/Yudisium/Umum. Format yang didukung:
 
 - PDF
 - DOCX
@@ -80,13 +80,14 @@ datasets/academic-documents.json
 - Tidak menjawab topik di luar TA/yudisium.
 - Jika informasi tidak ditemukan, bot mengarahkan pengguna ke SSC.
 - Jika pengguna meminta sumber, bot menampilkan nama dokumen relevan.
+- Jika pengguna minta dokumen tertentu, bot membalas link unduhan langsung.
+- Jika pengguna minta cek kelayakan TA/sidang/yudisium, bot menampilkan form pengecekan.
 
 ## Catatan Keamanan
 
-Jangan commit file `.env`, `.wwebjs_auth/`, `.wwebjs_cache/`, `uploads/`, atau `node_modules/`. File-file itu sudah dimasukkan ke `.gitignore`.
+Jangan commit file `.env`, `uploads/`, atau `node_modules/`. File-file itu sudah dimasukkan ke `.gitignore`.
 
 ## Referensi
 
-- [whatsapp-web.js](https://wwebjs.dev/)
 - [Gemini API generateContent](https://ai.google.dev/api/generate-content)
 - [Groq API Reference](https://console.groq.com/docs/api-reference)

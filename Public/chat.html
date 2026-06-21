@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="/assets/download.jpeg" fetchpriority="high">
+  <script src="/src/js/page-transition.js"></script>
+  <title>Chat — SHRUHH SSC Chatbot</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="./src/css/output.css" />
+  <link rel="stylesheet" href="./src/css/style.css" />
+  <link rel="stylesheet" href="./src/css/dark-theme.css" />
+  <link rel="stylesheet" href="./src/css/chat.css" />
+</head>
+<body>
+  <div class="bg-abstract"></div>
+  <div class="flex">
+    <div id="sidebar"></div>
+    <div class="main-content w-full" style="min-width: 0;">
+      <header>
+        <div class="wrap topbar">
+          <div>
+            <h1 id="pageTitle">Chat</h1>
+            <p class="meta" id="pageSubtitle">Tanyakan apa saja seputar Tugas Akhir dan Yudisium.</p>
+          </div>
+          <div class="status">
+            <span class="dot" id="statusDot"></span>
+            <span id="statusText">Memuat status...</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="wrap">
+        <!-- Chat tab -->
+        <div class="tab-panel active" id="tabChat">
+          <div class="chat-panel">
+            <div class="chat-messages" id="chatMessages">
+              <div class="empty-state" id="emptyState">
+                <svg class="logo" fill="none" height="60" viewBox="0 0 100 100" width="60" xmlns="http://www.w3.org/2000/svg">
+                  <rect fill="#7c3aed" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 35 10)" width="15" x="35" y="10"></rect>
+                  <rect fill="#4c1d95" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 50 45)" width="15" x="50" y="45"></rect>
+                </svg>
+                <h2>SHRUHH SSC Chatbot</h2>
+                <p>Tanyakan apa saja seputar Tugas Akhir, sidang, pembimbing, yudisium, kelulusan, dan administrasi akademik.</p>
+              </div>
+            </div>
+            <form class="chat-input-bar" id="chatForm">
+              <textarea id="chatInput" placeholder="Tulis pertanyaan kamu..." rows="1" required></textarea>
+              <button type="submit" id="sendBtn">Kirim</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Status Kelulusan tab -->
+        <div class="tab-panel" id="tabStatus">
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Status Kelulusan</h2>
+            <p class="text-sm text-gray-500">Lihat progres syarat Tugas Akhir, sidang, dan yudisium kamu, lalu update statusnya kapan saja.</p>
+          </div>
+          <div id="statusCards"><p class="hint">Memuat status...</p></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="./src/js/layout.js"></script>
+  <script src="./src/js/chat.js"></script>
+</body>
+</html>

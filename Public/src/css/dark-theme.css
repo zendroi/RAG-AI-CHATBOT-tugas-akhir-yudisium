@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Global Dark Theme */
+body {
+  min-height: 100vh;
+  /* Must override (not just omit) style.css's body{background:var(--bg)} —
+     since style.css loads first, omitting the property here just lets that
+     old rule win by default. .bg-abstract is a negative z-index child, and
+     ANY opaque body background paints OVER it (body's in-flow background box
+     paints after negative-z descendants per the CSS stacking spec),
+     permanently hiding the photo. html's background (page-transition.js) is
+     the only fallback fill needed. */
+  background: transparent;
+  color: #f3eefc;
+  font-family: 'Plus Jakarta Sans', Inter, Arial, Helvetica, sans-serif;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* Same silk-wave photo backdrop as login/register, so every page reads as one
+   premium product instead of dashboard pages looking flatter than the login. */
+.bg-abstract {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(900px 600px at 8% -10%, rgba(167, 139, 250, 0.22), transparent 60%),
+    radial-gradient(700px 500px at 105% 10%, rgba(124, 58, 237, 0.22), transparent 55%),
+    url('/assets/download.jpeg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px);
+  transform: scale(1.1);
+}
+
+::selection { background: rgba(167, 139, 250, 0.35); color: #ffffff; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.25);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(167, 139, 250, 0.4); }
+
+.bg-slate-100 { background: transparent !important; }
+.bg-white { 
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #f3eefc !important;
+}
+.text-gray-800, .text-gray-700, .text-gray-900 { color: #ffffff !important; }
+.text-gray-500, .text-gray-600, .text-gray-400 { color: #c9b8ec !important; }
+.border-gray-200, .border-gray-300, .border-gray-100, .border-t, .border-b { border-color: rgba(255, 255, 255, 0.15) !important; }
+
+input[type="text"], input[type="file"], textarea, select {
+  background: rgba(0, 0, 0, 0.2) !important;
+  color: #f3eefc !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: rgba(167, 139, 250, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2) !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+button {
+  background: linear-gradient(to bottom, #b794f4, #805ad5);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px -4px rgba(124, 58, 237, 0.45);
+  transition: filter 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
+}
+button:hover { filter: brightness(1.08); box-shadow: 0 10px 24px -4px rgba(124, 58, 237, 0.6); }
+button:active { transform: scale(0.98); }
+button:disabled {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #8b7fa3 !important;
+  box-shadow: none !important;
+  cursor: wait;
+}
+button.bg-gray-100, button.btn-secondary {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #c9b8ec !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: none !important;
+}
+button.bg-gray-100:hover, button.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+}
+button.danger {
+  background: linear-gradient(to bottom, #f87171, #dc2626) !important;
+  box-shadow: 0 6px 18px -4px rgba(220, 38, 38, 0.45) !important;
+}
+
+/* Stray Tailwind indigo/blue accents (sidebar toggle, upload submit) repainted
+   to the same violet gradient so no button breaks the purple theme. */
+.bg-indigo-600 { background: linear-gradient(to bottom, #b794f4, #805ad5) !important; }
+.hover\:bg-indigo-700:hover { filter: brightness(1.08); }
+.shadow-indigo-200, .shadow-md { box-shadow: 0 6px 18px -4px rgba(124, 58, 237, 0.45) !important; }
+
+/* Sidebar Dark Theme Overrides */
+#sidebar aside {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(20px) !important;
+}
+#sidebar .hover\:bg-gray-100:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+#sidebar .hover\:text-gray-900:hover { color: #ffffff !important; }
+#sidebar .nav-item.active {
+  background: rgba(167, 139, 250, 0.18) !important;
+  color: #ffffff !important;
+  box-shadow: inset 2px 0 0 #a78bfa;
+}
+#sidebar .nav-item.active i { color: #c4b5fd; }
+#sidebar .bg-rose-950 {
+  background: linear-gradient(to bottom, #b794f4, #805ad5) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* Header & Navbar (Admin Topbar) */
+/* .wrap / .topbar sizing (width, min-height) stays owned by style.css so header
+   height always matches the sidebar brand row — don't redeclare box-size props here. */
+header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+.topbar h1 {
+  font-size: 24px;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+.topbar .meta {
+  color: #c9b8ec;
+  font-size: 14px;
+  margin: 0;
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  color: #f3eefc;
+  transition: border-color 0.2s ease;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f56565;
+  box-shadow: 0 0 10px rgba(245, 101, 101, 0.6);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.dot.ok {
+  background: #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+}
+
+/* Panel and Metric logic for tugasAkhir and yudisium */
+/* Bot answers linkify raw URLs and document-download paths into real <a> tags — make them
+   read as links (blue, underline) instead of blending into the surrounding white text. */
+.answer a, .msg.bot a {
+  color: #60a5fa;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.answer a:hover, .msg.bot a:hover {
+  color: #93c5fd;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.panel:hover {
+  border-color: rgba(167, 139, 250, 0.3);
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(167, 139, 250, 0.08);
+  transform: translateY(-1px);
+}
+.panel h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: #ffffff;
+  margin-top: 0;
+}
+.metric {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.18);
+}
+.metric strong { display: block; color: #ffffff; font-size: 20px; margin-bottom: 4px; }
+.metric span { color: #c9b8ec; font-size: 12px; }
+.document-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.18);
+  margin-bottom: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.document-row:hover {
+  border-color: rgba(167, 139, 250, 0.35);
+  background: rgba(0, 0, 0, 0.28);
+}
+.document-row strong { color: #ffffff; font-size: 14px; display: block; overflow-wrap: anywhere; margin-bottom: 4px; }
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #c9b8ec;
+  margin-bottom: 8px;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+/* Tabs for Knowledge */
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block;
+}
+.tab {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c9b8ec;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 13.5px;
+  margin-right: 8px;
+  box-shadow: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+.tab.active {
+  background: linear-gradient(to bottom, #b794f4, #805ad5);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 6px 16px -4px rgba(124, 58, 237, 0.5);
+}
+
+@media (max-width: 860px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px 0;
+  }
+  .grid, .status-grid {
+    grid-template-columns: 1fr;
+  }
+}
