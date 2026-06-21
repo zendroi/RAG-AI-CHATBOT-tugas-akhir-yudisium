@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
       successMsg.style.display = 'block';
       errorMsg.style.display = 'none';
 
-      // Redirect ke login setelah 1.5 detik
+      // Redirect ke login setelah 1.5 detik (fade out right before navigating)
       setTimeout(() => {
-        window.location.href = '/';
+        document.body.classList.remove('page-ready');
+        setTimeout(() => { window.location.href = '/login'; }, 180);
       }, 1500);
     } catch (err) {
       errorMsg.textContent = 'Tidak bisa terhubung ke server';

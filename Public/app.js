@@ -1,251 +1,85 @@
-const statusDot = document.getElementById('statusDot');
-const statusText = document.getElementById('statusText');
-const documentCount = document.getElementById('documentCount');
-const chunkCount = document.getElementById('chunkCount');
-const geminiStatus = document.getElementById('geminiStatus');
-const whatsappStatus = document.getElementById('whatsappStatus');
-const webhookInfo = document.getElementById('webhookInfo');
-const documentList = document.getElementById('documentList');
-const uploadForm = document.getElementById('uploadForm');
-const uploadBtn = document.getElementById('uploadBtn');
-const uploadMessage = document.getElementById('uploadMessage');
-const botStatusText = document.getElementById('botStatusText');
-const startBotBtn = document.getElementById('startBotBtn');
-const stopBotBtn = document.getElementById('stopBotBtn');
-const qrBox = document.getElementById('qrBox');
-const qrImage = document.getElementById('qrImage');
-const askBtn = document.getElementById('askBtn');
-const question = document.getElementById('question');
-const answer = document.getElementById('answer');
-
-const API_URL = '/api';
-
-function setText(element, value) {
-  element.textContent = value;
-}
-
-function formatBytes(bytes) {
-  if (!bytes) return '0 KB';
-  const kb = bytes / 1024;
-  if (kb < 1024) return `${kb.toFixed(1)} KB`;
-  return `${(kb / 1024).toFixed(1)} MB`;
-}
-
-const getEl = (id) => document.getElementById(id);
-
-function getStatusDot() {
-    return document.getElementById('statusDot');
-}
-
-async function loadStatus() {
-  const response = await fetch('/api/status');
-  const data = await response.json();
-
-  const statusDot = getEl('statusDot');
-  const statusText = getEl('statusText');
-
-  if (statusDot) statusDot.classList.toggle('ok', data.server === 'online');
-  if (statusText) setText(statusText, data.server === 'online' ? 'Server online' : 'Server offline');
-  
-  // ... lanjut ke elemen lainnya dengan pola yang sama ...
-  setText(getEl('documentCount'), String(data.documents || 0));
-  setText(chunkCount, String(data.chunks || 0));
-  setText(geminiStatus, data.geminiConfigured ? 'Siap' : 'Belum');
-  setText(whatsappStatus, data.whatsappConfigured ? 'Siap' : 'Belum');
-  setText(webhookInfo, `Path webhook: ${data.webhookPath} | Verify token: ${data.verifyToken}`);
-}
-
-async function loadBotStatus() {
-  const response = await fetch('/api/bot/status');
-  const data = await response.json();
-
-  startBotBtn.style.display = data.isReady || data.isInitializing ? 'none' : 'inline-flex';
-  stopBotBtn.style.display = data.isReady || data.isInitializing || data.hasQr ? 'inline-flex' : 'none';
-
-  if (data.isReady) {
-    setText(botStatusText, 'Bot WhatsApp terhubung dan siap membalas pesan.');
-    qrBox.style.display = 'none';
-    qrImage.removeAttribute('src');
-    return;
+(function () {
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 
-  if (data.hasQr) {
-    setText(botStatusText, 'Menunggu scan QR WhatsApp.');
-    const qrResponse = await fetch('/api/bot/qr');
-    const qrData = await qrResponse.json();
-    if (qrData.qr) {
-      qrImage.src = qrData.qr;
-      qrBox.style.display = 'block';
+  // Bot answers contain raw URLs and relative download paths (/api/documents/<id>/download)
+  // as plain text — without converting them to real <a> tags they're not clickable/downloadable.
+  function setAnswerHtml(element, text) {
+    element.innerHTML = escapeHtml(text)
+      .replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/(\/api\/documents\/[a-zA-Z0-9-]+\/download)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">Unduh dokumen</a>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  }
+
+  function setText(element, value) {
+    if (element) element.textContent = value;
+  }
+
+  function init() {
+    var statusDot = document.getElementById('statusDot');
+    var statusText = document.getElementById('statusText');
+    var documentCount = document.getElementById('documentCount');
+    var chunkCount = document.getElementById('chunkCount');
+    var geminiStatus = document.getElementById('geminiStatus');
+    var askBtn = document.getElementById('askBtn');
+    var question = document.getElementById('question');
+    var answer = document.getElementById('answer');
+    if (!askBtn || !question || !answer) return; // not on the dashboard page
+
+    async function loadStatus() {
+      const response = await fetch('/api/status');
+      const data = await response.json();
+
+      if (statusDot) statusDot.classList.toggle('ok', data.server === 'online');
+      if (statusText) setText(statusText, data.server === 'online' ? 'Server online' : 'Server offline');
+
+      setText(documentCount, String(data.documents || 0));
+      setText(chunkCount, String(data.chunks || 0));
+      setText(geminiStatus, data.geminiConfigured ? 'Siap' : 'Belum');
     }
-    return;
-  }
 
-  if (data.isInitializing) {
-    setText(botStatusText, 'Bot sedang dimulai...');
-    qrBox.style.display = 'none';
-    return;
-  }
+    askBtn.addEventListener('click', async () => {
+      const text = question.value.trim();
+      if (!text) {
+        setText(answer, 'Isi pertanyaan terlebih dahulu.');
+        return;
+      }
 
-  if (data.isStopping) {
-    setText(botStatusText, 'Bot sedang dihentikan...');
-    qrBox.style.display = 'none';
-    return;
-  }
+      askBtn.disabled = true;
+      setText(answer, 'Memproses jawaban...');
 
-  setText(botStatusText, 'Bot WhatsApp belum berjalan.');
-  qrBox.style.display = 'none';
-  qrImage.removeAttribute('src');
-}
-
-async function loadDocuments() {
-  const response = await fetch('/api/documents');
-  const data = await response.json();
-  const documents = data.documents || [];
-
-  if (!documents.length) {
-    documentList.innerHTML = '<p class="meta">Belum ada dokumen aktif.</p>';
-    return;
-  }
-
-  documentList.innerHTML = '';
-  documents
-    .slice()
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .forEach(doc => {
-      const row = document.createElement('div');
-      row.className = 'document-row';
-      row.innerHTML = `
-        <div>
-          <strong>${doc.name}</strong>
-          <p class="meta">${doc.type.toUpperCase()} | ${formatBytes(doc.bytes)} | ${doc.chunks} potongan</p>
-        </div>
-        <button class="danger" type="button" data-id="${doc.id}">Hapus</button>
-      `;
-      documentList.appendChild(row);
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: text })
+        });
+        const data = await response.json();
+        setAnswerHtml(answer, data.answer || data.message || 'Tidak ada jawaban.');
+      } catch (error) {
+        setText(answer, `Gagal memproses: ${error.message}`);
+      } finally {
+        askBtn.disabled = false;
+      }
     });
-}
 
-async function refreshAll() {
-  await Promise.all([loadStatus(), loadBotStatus(), loadDocuments()]);
-}
-
-startBotBtn.addEventListener('click', async () => {
-  startBotBtn.disabled = true;
-  setText(botStatusText, 'Memulai bot WhatsApp...');
-
-  try {
-    const response = await fetch('/api/bot/start', { method: 'POST' });
-    const data = await response.json();
-    setText(botStatusText, data.message || 'Bot dimulai.');
-    await loadBotStatus();
-  } catch (error) {
-    setText(botStatusText, `Gagal memulai bot: ${error.message}`);
-  } finally {
-    startBotBtn.disabled = false;
-  }
-});
-
-stopBotBtn.addEventListener('click', async () => {
-  stopBotBtn.disabled = true;
-  setText(botStatusText, 'Menghentikan bot WhatsApp...');
-
-  try {
-    const response = await fetch('/api/bot/stop', { method: 'POST' });
-    const data = await response.json();
-    setText(botStatusText, data.message || 'Bot dihentikan.');
-    await loadBotStatus();
-  } catch (error) {
-    setText(botStatusText, `Gagal menghentikan bot: ${error.message}`);
-  } finally {
-    stopBotBtn.disabled = false;
-  }
-});
-
-uploadForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const files = document.getElementById('documents').files;
-  if (!files.length) {
-    setText(uploadMessage, 'Pilih dokumen terlebih dahulu.');
-    return;
-  }
-
-  const formData = new FormData();
-  [...files].forEach(file => formData.append('documents', file));
-
-  uploadBtn.disabled = true;
-  setText(uploadMessage, 'Memproses dokumen...');
-
-  try {
-    const response = await fetch('/api/documents/upload', {
-      method: 'POST',
-      body: formData
+    loadStatus().catch(error => {
+      statusDot?.classList?.remove('ok');
+      setText(statusText, `Gagal memuat status: ${error.message}`);
     });
-    const data = await response.json();
-    setText(uploadMessage, data.message || 'Upload selesai.');
-    uploadForm.reset();
-    await refreshAll();
-  } catch (error) {
-    setText(uploadMessage, `Gagal upload: ${error.message}`);
-  } finally {
-    uploadBtn.disabled = false;
-  }
-});
 
-documentList.addEventListener('click', async event => {
-  const button = event.target.closest('button[data-id]');
-  if (!button) return;
-  if (!confirm('Hapus dokumen ini dari basis pengetahuan?')) return;
-
-  button.disabled = true;
-  const response = await fetch(`/api/documents/${button.dataset.id}`, { method: 'DELETE' });
-  const data = await response.json();
-  setText(uploadMessage, data.message || '');
-  await refreshAll();
-});
-
-askBtn.addEventListener('click', async () => {
-  const text = question.value.trim();
-  if (!text) {
-    setText(answer, 'Isi pertanyaan terlebih dahulu.');
-    return;
+    // Re-running init() after a shell swap (admin <-> knowledge nav) would
+    // otherwise stack a new poller on top of the old one every time.
+    if (window.__adminStatusInterval) clearInterval(window.__adminStatusInterval);
+    window.__adminStatusInterval = setInterval(() => {
+      loadStatus().catch(() => {});
+    }, 5000);
   }
 
-  askBtn.disabled = true;
-  setText(answer, 'Memproses jawaban...');
-
-  try {
-    const response = await fetch('/api/chat/test', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: text })
-    });
-    const data = await response.json();
-    setText(answer, data.answer || data.message || 'Tidak ada jawaban.');
-  } catch (error) {
-    setText(answer, `Gagal memproses: ${error.message}`);
-  } finally {
-    askBtn.disabled = false;
-  }
-});
-
-refreshAll().catch(error => {
-  statusDot.classList.remove('ok');
-  setText(statusText, `Gagal memuat status: ${error.message}`);
-});
-
-
-
-
-function clearForm() {
-
-    document.getElementById('keyword').value = '';
-    document.getElementById('response').value = '';
-    document.getElementById('keyword').focus();
-}
-
-setInterval(() => {
-  loadBotStatus().catch(() => {});
-  loadStatus().catch(() => {});
-}, 5000);
-
-
+  window.AdminPage = { init };
+  init();
+})();

@@ -6,7 +6,9 @@ const STOPWORDS_ID = new Set([
 'bisa', 'dapat', 'sudah', 'belum', 'kami', 'kamu', 'anda', 'saya',
 'aku', 'kita',
 'mereka', 'apa', 'siapa', 'kapan', 'dimana', 'bagaimana', 'kenapa',
-'jika', 'kalau'
+'jika', 'kalau',
+'ingin', 'tahu', 'mau', 'pingin', 'halo', 'hai', 'tolong', 'mohon',
+'gimana', 'caranya'
 ]);
 class RAGEngine {
 constructor() {
@@ -120,27 +122,81 @@ queryNormSquared += weight * weight;
 });
 const queryNorm = Math.sqrt(queryNormSquared);
 if (!queryNorm) return [];
+const queryTokenSet = new Set(queryTokens);
 const scored = vectors
 .map(item => {
-if (!item.norm) return { ...item, score: 0 };
-let dot = 0;
+let cosine = 0;
+if (item.norm) {
 queryVector.forEach((qWeight, token) => {
 const dWeight = item.vector.get(token);
-if (dWeight) dot += qWeight * dWeight;
+if (dWeight) cosine += qWeight * dWeight;
 });
+cosine = cosine / (queryNorm * item.norm);
+}
+// Documents whose filename matches the query topic (e.g. "syarat yudisium" vs
+// "Panduan Pendaftaran Yudisium.pdf") often have poorly OCR'd/table-mangled body
+// text that scores low on pure cosine similarity. Boost by how much of the query's
+// own vocabulary the title covers, so the obviously-on-topic document doesn't lose
+// to a generic one just because its body text is denser/cleaner.
+const titleTokens = new Set(this.tokenize(item.source));
+const titleOverlap = queryTokenSet.size
+? [...queryTokenSet].filter(token => titleTokens.has(token)).length / queryTokenSet.size
+: 0;
+// Cosine similarity dilutes against chunks with a large, varied vocabulary (e.g. a
+// schedule table full of unique month/column words) even when every query word is
+// literally present — a short 2-word query like "jadwal yudisium" can lose to a
+// shorter, less relevant chunk purely on vector-length grounds. Reward chunks that
+// contain *every* query content-word verbatim, regardless of document length.
+const itemTokenSet = new Set(this.tokenize(item.text));
+const queryCoverage = queryTokenSet.size
+? [...queryTokenSet].filter(token => itemTokenSet.has(token)).length / queryTokenSet.size
+: 0;
+const coverageBoost = queryCoverage === 1 ? 0.15 : 0;
 return {
 id: item.id,
 sourceId: item.sourceId,
 source: item.source,
 chunk: item.chunk,
 text: item.text,
-score: dot / (queryNorm * item.norm)
+score: cosine + titleOverlap * 0.4 + coverageBoost
 };
 })
         .filter(item => item.score > 0.01)
 .sort((a, b) => b.score - a.score)
 .slice(0, topK);
-return scored;
+return this.expandWithNeighbors(scored, vectors, topK);
+}
+// Number-heavy table rows (e.g. "3,92 7 475 ... Summa cumlaude") carry the actual answer but
+// score low against a natural-language question because they share few words with it — the
+// decree/heading chunk right before them scores high instead. So for each retrieved chunk,
+// also pull the immediately adjacent chunks (+/-1) from the SAME source, which is where the
+// spilled-over table/detail usually lives. Neighbors inherit a lower score so genuine top
+// hits stay first.
+expandWithNeighbors(scored, vectors, topK, maxExtra = 6) {
+if (!scored.length) return scored;
+const byKey = new Map();
+vectors.forEach(v => byKey.set(`${v.sourceId}:${v.chunk}`, v));
+const present = new Set(scored.map(item => `${item.sourceId}:${item.chunk}`));
+const additions = [];
+for (const item of scored) {
+if (typeof item.chunk !== 'number') continue;
+for (const delta of [-1, 1]) {
+if (additions.length >= maxExtra) break;
+const key = `${item.sourceId}:${item.chunk + delta}`;
+if (present.has(key) || !byKey.has(key)) continue;
+const neighbor = byKey.get(key);
+present.add(key);
+additions.push({
+id: neighbor.id,
+sourceId: neighbor.sourceId,
+source: neighbor.source,
+chunk: neighbor.chunk,
+text: neighbor.text,
+score: item.score * 0.6
+});
+}
+}
+return [...scored, ...additions].sort((a, b) => b.score - a.score);
 }
 buildContextBlock(contextItems) {
 if (!contextItems || !contextItems.length) return '';

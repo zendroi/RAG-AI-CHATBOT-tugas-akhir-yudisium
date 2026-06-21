@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Register - CHATBOT</title>
+<link rel="icon" href="data:,">
+<link rel="preload" as="image" href="/assets/download.jpeg" fetchpriority="high">
+<script src="/src/js/page-transition.js"></script>
+<title>Register - SHRUHH SSC Chatbot</title>
 <!-- Tailwind CSS CDN with plugins -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- BEGIN: Custom Configurations -->
@@ -27,11 +30,16 @@
   </script>
 <!-- END: Custom Configurations -->
 <!-- BEGIN: Custom Styles -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style data-purpose="background-animations">
     body {
-      background: #1a0b2e;
+      /* No background-color: .bg-abstract is a negative z-index child and
+         body's own opaque bg would paint over it. html's bg is the fallback. */
       overflow: hidden;
       min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: -0.01em;
     }
 
     .bg-abstract {
@@ -41,7 +49,10 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background-image: url('assets/download.jpeg');
+      background-image:
+        radial-gradient(900px 600px at 12% -5%, rgba(167, 139, 250, 0.22), transparent 60%),
+        radial-gradient(700px 600px at 100% 105%, rgba(124, 58, 237, 0.22), transparent 55%),
+        url('assets/download.jpeg');
       background-size: cover;
       background-position: center;
       filter: blur(5px);
@@ -53,7 +64,7 @@
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+      box-shadow: 0 24px 70px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(167, 139, 250, 0.08);
     }
 
     .text-shadow {
@@ -64,11 +75,20 @@
     input::placeholder {
       color: rgba(255, 255, 255, 0.5);
     }
-    
+
+    input {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
     input:focus {
       outline: none;
+      box-shadow: none !important;
       border-color: rgba(167, 139, 250, 0.5) !important;
-      ring: 2px solid rgba(167, 139, 250, 0.3);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    button[type="submit"] {
+      transition: filter 0.2s ease, transform 0.12s ease, box-shadow 0.2s ease;
     }
   </style>
 <!-- END: Custom Styles -->
@@ -87,7 +107,7 @@
 <rect fill="#7c3aed" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 35 10)" width="15" x="35" y="10"></rect>
 <rect fill="#4c1d95" fill-opacity="0.8" height="45" rx="7.5" transform="rotate(35 50 45)" width="15" x="50" y="45"></rect>
 </svg>
-<h1 class="text-2xl font-semibold tracking-widest uppercase">CHATBOT</h1>
+<h1 class="text-2xl font-semibold tracking-widest uppercase">SHRUHH SSC Chatbot</h1>
 </div>
 <h2 class="text-2xl font-light mt-4 tracking-wide text-shadow">Create Your Account</h2>
 </div>
@@ -124,7 +144,7 @@
 <footer class="mt-12 text-center" data-purpose="form-footer">
 <p class="text-sm font-light">
           Already have an account ?
-          <a class="font-bold hover:underline transition-all" href="/">Login</a>
+          <a class="font-bold hover:underline transition-all" href="/login">Login</a>
 </p>
 </footer>
 <!-- END: FooterLinks -->

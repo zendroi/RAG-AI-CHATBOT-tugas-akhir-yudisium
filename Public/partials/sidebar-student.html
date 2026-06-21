@@ -1,0 +1,87 @@
+<aside
+  id="sidebars"
+  class="group flex flex-col  h-screen bg-white border-r border-gray-200 transition-all duration-200 ease-in-out"
+>
+  <!-- Brand -->
+  <div
+    class="sidebar-brand-row flex items-center gap-3 px-4 py-4 border-b border-gray-200 overflow-hidden whitespace-nowrap"
+  >
+    <div
+      class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 flex-shrink-0"
+    >
+      <i class="ti ti-robot text-blue-600 text-lg"></i>
+    </div>
+    <div class="sidebar-text flex flex-col overflow-hidden">
+      <span class="text-sm font-medium text-gray-900 truncate"
+        >SHRUHH SSC Chatbot</span
+      >
+      <span class="text-xs text-gray-400">Mahasiswa</span>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 px-2 py-3 overflow-y-auto overflow-x-hidden space-y-0.5">
+    <button
+      type="button"
+      data-tab="chat"
+      class="nav-item active w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors whitespace-nowrap overflow-hidden"
+    >
+      <i class="ti ti-message-chatbot text-lg w-5 text-center flex-shrink-0"></i>
+      <span class="sidebar-text">Chat</span>
+    </button>
+    <button
+      type="button"
+      data-tab="status"
+      class="nav-item w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors whitespace-nowrap overflow-hidden"
+    >
+      <i class="ti ti-checklist text-lg w-5 text-center flex-shrink-0"></i>
+      <span class="sidebar-text">Status Kelulusan</span>
+    </button>
+  </nav>
+
+  <!-- Footer -->
+  <div class="px-2 pb-3 border-t border-gray-200 pt-3 space-y-1">
+    <!-- Toggle button -->
+    <button
+      onclick="toggleSidebar()"
+      class="w-full flex items-center bg-indigo-600 justify-center gap-2 px-3 py-2 rounded-lg text-sm text-white border border-gray-200 hover:bg-indigo-700 transition-colors"
+    >
+      <i
+        class="ti ti-layout-sidebar-left-collapse text-base transition-transform duration-200"
+        id="toggleIcon"
+      ></i>
+      <span class="sidebar-text  text-sm">Sembunyikan</span>
+    </button>
+
+    <!-- User row -->
+    <div
+      class="sidebar-user-row flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors overflow-hidden"
+    >
+      <div
+        class="w-8 h-8 rounded-full bg-green-100 text-green-700 text-xs font-medium flex items-center justify-center flex-shrink-0"
+        id="studentInitials"
+      >
+        MH
+      </div>
+      <div class="sidebar-text overflow-hidden">
+        <p class="text-sm font-medium text-gray-900 truncate" id="studentName">Mahasiswa</p>
+        <p class="text-xs text-gray-400 flex items-center gap-1">
+          <span
+            class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"
+          ></span>
+          Online
+        </p>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <a
+      href="#"
+      id="sidebarLogoutBtn"
+      class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm text-red-600 border border-gray-200 hover:bg-red-100 transition-colors"
+    >
+      <i class="ti ti-logout text-base"></i>
+      <span class="sidebar-text text-sm">Keluar</span>
+    </a>
+  </div>
+</aside>
