@@ -653,6 +653,34 @@ app.post('/api/chat', requireAuth, async (req, res) => {
   res.json({ answer });
 });
 
+const { Transform, Parser } = require('json2csv');
+
+app.get('/download-data-stream', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, 'datasets', 'academic-documents.json');
+        const fileContent = await fs.promises.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(fileContent);
+        const dataToParse = jsonData.sources || [];
+
+        const parser = new Parser({ fields: ['id', 'name', 'type', 'category'] });
+        const csv = parser.parse(dataToParse);
+
+        // Simpan ke folder project
+        const outputPath = path.join(__dirname, 'exports', 'academic-documents.csv');
+        fs.mkdirSync(path.join(__dirname, 'exports'), { recursive: true }); // buat folder jika belum ada
+        await fs.promises.writeFile(outputPath, csv, 'utf8');
+
+        // Sekaligus kirim ke browser untuk didownload
+        res.header('Content-Type', 'text/csv');
+        res.attachment('academic-documents.csv');
+        res.send(csv);
+
+    } catch (err) {
+        console.error('Backend Error:', err);
+        res.status(500).send('Terjadi kesalahan pada server');
+    }
+});
+
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
 });

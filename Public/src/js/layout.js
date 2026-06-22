@@ -18,6 +18,38 @@ async function initLayout() {
         loadPartial('#footer', '/partials/footer.html'),
     ]);
 
+
+    document.getElementById('btnDownload')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        // Tampilkan loading jika ada
+        document.body.classList.remove('page-ready');
+
+        try {
+            const response = await fetch('/download-data-stream');
+            if (!response.ok) throw new Error('Download gagal');
+
+            // Mengubah response menjadi blob
+            const blob = await response.blob();
+
+            // Membuat link download secara programatik
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'academic-documents.csv';
+            document.body.appendChild(a);
+            a.click();
+
+            // Bersihkan
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error('Error:', err);
+        } finally {
+            document.body.classList.add('page-ready');
+        }
+    });
+
     document.getElementById('sidebarLogoutBtn')?.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
@@ -178,11 +210,11 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await initLayout();
+    await initLayout();
 
-  await loadPages();
+    await loadPages();
 
-  const sidebar = document.getElementById('sidebar');
-  const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-  sidebar.classList.toggle('collapsed', wasCollapsed);
+    const sidebar = document.getElementById('sidebar');
+    const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    sidebar.classList.toggle('collapsed', wasCollapsed);
 });
