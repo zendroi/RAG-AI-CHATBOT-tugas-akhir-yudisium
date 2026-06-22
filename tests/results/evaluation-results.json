@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "tanggal": "2026-06-22T15:19:08.600Z",
+    "total": 8,
+    "pass": 8,
+    "avg_f1": 0.33,
+    "avg_context_recall": 0.838
+  },
+  "results": [
+    {
+      "no": 1,
+      "question": "carikan alur pendaftaran Tugas Akhir",
+      "ground_truth": "Pendaftaran Tugas Akhir dilakukan melalui Menu TA/PA pada iGracias. Panduan teknis lengkap tersedia dalam dokumen User Manual Fitur TA/PA iGracias Mahasiswa yang dapat diakses melalui linktr.ee/laa.upps.sby.",
+      "answer": "Berdasarkan *Buku Pedoman Tugas Akhir (UPPS TUS) - Versi 2.0*, pendaftaran Tugas Akhir dilakukan secara online melalui menu TA/PA pada iGracias.\n\nPanduan teknis mengenai penggunaan fitur tersebut telah tersedia dalam dokumen *User Manual Fitur TA/PA iGracias Mahasiswa* yang dapat Anda akses melalui tautan: linktr.ee/laa.upps.sby.\n\nMeskipun dokumen tersebut menjelaskan lokasi pendaftaran, rincian langkah-langkah prosedural spesifik di dalam sistem iGracias tidak dijabarkan secara mendetail dalam pedoman ini. Anda disarankan untuk mengikuti panduan yang tersedia pada tautan tersebut.",
+      "f1_score": 0.456,
+      "context_recall": 0.938,
+      "pass": true
+    },
+    {
+      "no": 2,
+      "question": "syarat sidang tugas akhir",
+      "ground_truth": "Berdasarkan Buku ,Syarat sidang Tugas Akhir meliputi: mahasiswa telah menyelesaikan penyusunan buku laporan Tugas Akhir pada semester berjalan, telah disetujui Dosen Pembimbing dan Dosen Penguji, melakukan konfirmasi jadwal H-1 sidang, dan memenuhi syarat nilai kelulusan minimal C (>50) dengan durasi sidang 90 menit.",
+      "answer": "Berdasarkan *Buku Pedoman Tugas Akhir (UPPS TUS) - Versi 2.0*, syarat untuk mendaftar sidang Tugas Akhir adalah mahasiswa harus telah menyelesaikan penyusunan buku laporan Tugas Akhir pada semester berjalan.\n\nPerlu diketahui bahwa dokumen tersebut menyebutkan adanya persyaratan pendaftaran sidang Tugas Akhir secara administratif, namun rincian teknis mengenai dokumen atau kriteria spesifik yang harus dipenuhi untuk pendaftaran tersebut belum dijabarkan secara mendetail dalam dokumen yang tersedia.",
+      "f1_score": 0.257,
+      "context_recall": 0.568,
+      "pass": true
+    },
+    {
+      "no": 3,
+      "question": "bagaimana cara daftar yudisium",
+      "ground_truth": "Pendaftaran yudisium dilakukan dengan: (1) Menyelesaikan syarat administratif (similarity max 25%, SBKP, Bebas Lab, Bebas Keuangan), (2) Validasi onsite dummy ijazah di SSC dengan membawa materai & dokumen identitas, (3) Unggah foto ijazah ke Basila (almet merah), dan (4) Mengisi Microsoft Form di linktr.ee/laa.upps.sby menggunakan email student Tel-U.",
+      "answer": "Berdasarkan *Panduan Pendaftaran Yudisium TUS*, berikut adalah langkah-langkah untuk mendaftar yudisium:\n\n1. **Penyelesaian Syarat Administratif:**\n   * Pastikan revisi Tugas Akhir telah selesai dan mendapatkan tanda tangan basah dari pembimbing serta penguji pada buku Tugas Akhir.\n   * Melakukan pengecekan *similarity* (maksimal 25%) melalui prodi.\n   * Mengurus Surat Bebas Kewajiban Pustaka (SBKP) dan Surat Bebas Pinjaman Laboratorium (SBPL) maksimal H-3 sebelum penutupan pendaftaran yudisium.\n   * Mengurus Surat Keterangan Bebas Keuangan ke ruang SSC maksimal H-3 sebelum penutupan pendaftaran yudisium.\n   * Melakukan validasi biodata *dummy* ijazah secara *onsite* di SSC dengan membawa materai Rp10.000, dokumen identitas (KTP/KK/Akte/Ijazah SMA), serta formulir yang dicetak dari iGracias.\n   * Mengunggah foto ijazah menggunakan almet merah berlogo Telkom University ke Basila.\n\n2. **Persiapan Berkas:**\n   Siapkan dokumen kelengkapan pendaftaran, antara lain: *capture* lulus sidang tingkat 3, form revisi TA, bukti unggah *softfile* buku TA di *Open Library*, buku TA versi final, hasil cek *similarity* (buku TA dan karya ilmiah), serta dokumen pendukung lainnya sesuai daftar periksa di panduan. Jika Anda mengajukan predikat *Cumlaude/Summa Cumlaude*, Anda wajib membawa formulir validasi luaran dan bukti pendukung ke ruang SSC maksimal H-3 sebelum penutupan pendaftaran.\n\n3. **Pengisian Formulir:**\n   Setelah seluruh dokumen siap, Anda wajib mengisi formulir pendaftaran melalui *Microsoft Form* yang tersedia di tautan https://linktr.ee/laa.upps.sby menggunakan akun email *student* Telkom University.\n\nMohon diperhatikan bahwa tanggal pasti penutupan pendaftaran yudisium tidak disebutkan dalam dokumen tersebut, sehingga Anda disarankan untuk memantau pengumuman resmi atau menghubungi SSC untuk informasi jadwal terkini.",
+      "f1_score": 0.278,
+      "context_recall": 0.923,
+      "pass": true
+    },
+    {
+      "no": 4,
+      "question": "syarat cumlaude",
+      "ground_truth": "Syarat Cumlaude: IPK 3.51-3.90, masa studi normal, tidak pernah mengulang matkul, tidak pernah sanksi akademik. Syarat tambahan: Nilai Tugas Akhir A, serta memenuhi salah satu luaran (Publikasi Ilmiah Sinta-2, Pameran nasional 5x, Lomba tingkat nasional/internasional, atau HKI yang digunakan mitra).",
+      "answer": "Untuk meraih predikat Cumlaude, Anda harus memenuhi syarat utama dan syarat tambahan sebagai berikut:\n\n**Syarat Utama:**\n1. Lulus dalam rentang masa studi normal.\n2. IPK 3,51 – 3,90.\n3. Tidak pernah mengulang mata kuliah.\n4. Tidak pernah mendapat sanksi akademik maupun nonakademik.\n\n**Syarat Tambahan Umum:**\n1. Tidak pernah mendapat sanksi pelanggaran akademik maupun nonakademik.\n2. Mendapat nilai indeks A pada mata kuliah Tugas Akhir.\n\n**Syarat Tambahan Khusus (Pilih salah satu luaran):**\n*   **Publikasi Ilmiah:** Memiliki minimal 1 publikasi ilmiah berbahasa Inggris bersama dosen pembimbing/pengampu selama studi, terkait bidang keilmuan, sebagai penulis pertama, minimal Sinta-2, dan sekurang-kurangnya telah memiliki *Letter of Acceptance* (LoA).\n*   **Pameran:** Terdaftar sebagai penyaji karya yang terkait dengan bidang keilmuan dalam pameran minimal bertaraf nasional yang diselenggarakan berkala (minimal 5 kali), peserta berasal dari lebih dari 3 provinsi, dan melalui sistem kurasi oleh kurator bereputasi.\n*   **Lomba:** Berprestasi memperoleh capaian minimal 3 besar tingkat nasional/internasional yang terkait bidang keilmuan, membawa nama Universitas Telkom, serta memenuhi kategori internasional klaster 1 atau 2, atau nasional klaster 1 atau 2 yang ditetapkan Direktorat Kemahasiswaan, Pengembangan Karir & Alumni.\n*   **HKI:** Memiliki HKI yang diajukan melalui unit HKI Universitas Telkom, digunakan oleh usaha menengah (dibuktikan dengan prototipe dan sertifikat dari mitra DUDI), dan Anda bertindak sebagai salah satu pencipta.\n\nInformasi mengenai detail teknis pengajuan dokumen validasi untuk setiap luaran tersebut dapat Anda lihat pada dokumen *3. Syarat Evidence Cumlaude dan Summa Cumlaude.xlsx*. Perlu diingat, jika syarat tambahan tidak terpenuhi, predikat yudisium dapat turun satu tingkat.",
+      "f1_score": 0.262,
+      "context_recall": 0.956,
+      "pass": true
+    },
+    {
+      "no": 5,
+      "question": "cara mengajukan surat bebas pustaka",
+      "ground_truth": "Surat Bebas Kewajiban Pustaka (SBKP) diajukan melalui Open Library Telkom University Surabaya maksimal H-3 sebelum penutupan pendaftaran yudisium. Jika ada kendala teknis, hubungi Helpdesk Open Library TUS di +62 821-4311-2311.",
+      "answer": "Berdasarkan *Panduan Pendaftaran Yudisium TUS*, berikut adalah cara mengajukan Surat Bebas Kewajiban Pustaka (SBKP):\n\n1. Mahasiswa mengajukan permohonan melalui Open Library Telkom University Surabaya sesuai dengan panduan yang tersedia.\n2. Pengajuan harus dilakukan maksimal H-3 sebelum penutupan pendaftaran yudisium.\n3. Jika Anda memerlukan bantuan atau informasi lebih lanjut terkait proses pengajuan, Anda dapat menghubungi Helpdesk Open Library TUS melalui WhatsApp di nomor +62 821-4311-2311.\n\nMengenai detail langkah-langkah teknis di dalam sistem Open Library, dokumen tersebut tidak merinci prosedurnya secara langkah-demi-langkah, namun Anda dapat mengakses panduan lengkapnya melalui tautan yang disediakan di unit perpustakaan.\n\nDokumen terkait:\n- 4. Panduan Pendaftaran Yudisium TUS.pdf -> /api/documents/3cd232a7-0332-437f-8032-8140f5973f21/download\n- 1. Surat Bebas Tunggakan Keuangan (UPPS TUS).docx -> /api/documents/db7f4621-2f51-49e3-92bd-b3dce1b5c2c3/download",
+      "f1_score": 0.329,
+      "context_recall": 0.939,
+      "pass": true
+    },
+    {
+      "no": 6,
+      "question": "batas similarity tugas akhir",
+      "ground_truth": "Batas maksimal tingkat similarity atau kesamaan konten untuk Tugas Akhir adalah 25%. Pengecekan dilakukan oleh Dosen Pembimbing menggunakan perangkat lunak (iThenticate) sebelum dokumen diajukan untuk dinilai.",
+      "answer": "Berdasarkan *Buku Pedoman Tugas Akhir (UPPS TUS) - Versi 2.0*, batas tingkat *similarity* atau kesamaan konten yang diizinkan untuk Tugas Akhir maupun Proposal Tugas Akhir adalah maksimal 25%.\n\nDosen Pembimbing wajib melakukan pengecekan menggunakan perangkat lunak sebelum dokumen diajukan untuk dinilai guna memastikan hasil *similarity* berada di bawah batas tersebut. Jika hasil pengecekan melebihi 25%, Anda diwajibkan untuk melakukan perbaikan dan penyusunan ulang pada bagian yang terindikasi plagiarisme. Namun, dokumen tersebut tidak merinci secara spesifik mengenai aplikasi perangkat lunak apa yang digunakan untuk pengecekan tersebut.",
+      "f1_score": 0.396,
+      "context_recall": 0.885,
+      "pass": true
+    },
+    {
+      "no": 7,
+      "question": "cara upload foto basila",
+      "ground_truth": "Mahasiswa wajib foto ijazah mandiri mengenakan Almet Merah berlogo Telkom University, lalu mengunggahnya ke website https://basila.telkomuniversity.ac.id/. Foto harus disetujui (Approved) oleh Dosen Wali untuk dapat digunakan sebagai syarat pendaftaran yudisium.",
+      "answer": "Berdasarkan dokumen *Panduan Pendaftaran Yudisium TUS* dan *Surat Edaran TA SMT Genap 2526*, berikut adalah langkah-langkah untuk mengunggah foto ijazah di Basila:\n\n1. Mahasiswa melakukan foto ijazah secara mandiri dengan ketentuan menggunakan Almet Merah berlogo Telkom University.\n2. Unggah foto tersebut melalui website https://basila.telkomuniversity.ac.id/.\n3. Pastikan status pada website menunjukkan \"Approved\" setelah disetujui oleh Dosen Wali. Perlu diketahui bahwa Dosen Wali hanya dapat memberikan persetujuan jika foto telah sesuai dengan ketentuan yang berlaku.\n\nPanduan lengkap mengenai ketentuan foto dapat Anda akses melalui tautan yang tersedia di dalam dokumen *Panduan Pendaftaran Yudisium TUS*.",
+      "f1_score": 0.366,
+      "context_recall": 0.794,
+      "pass": true
+    },
+    {
+      "no": 8,
+      "question": "cara bebas pinjaman perpustakaan",
+      "ground_truth": "Surat Bebas Pinjaman Perpustakaan diajukan maksimal H-3 sebelum penutupan pendaftaran yudisium. Jika memerlukan bantuan atau informasi lebih lanjut, mahasiswa dapat menghubungi Hotline Laboratorium TUS di +62 821-4468-7038.",
+      "answer": "Berdasarkan *Panduan Pendaftaran Yudisium TUS*, berikut adalah cara pengajuan Surat Bebas Kewajiban Perpustakaan (SBKP):\n\n1. Mahasiswa mengajukan SBKP melalui Open Library Telkom University Surabaya sesuai panduan yang tersedia.\n2. Pengajuan harus dilakukan maksimal H-3 sebelum penutupan pendaftaran yudisium.\n3. Sebagai syarat mendapatkan SBKP, Anda wajib melampirkan bukti pengecekan *similarity* menggunakan aplikasi iThenticate dengan skor maksimal 25%, sebagaimana disebutkan dalam *Buku Pedoman Tugas Akhir (UPPS TUS)*.\n\nUntuk informasi lebih lanjut atau kendala teknis, Anda dapat menghubungi Helpdesk Open Library TUS di nomor +62 821-4311-2311. Mohon maaf, dokumen yang tersedia belum merinci langkah-langkah teknis spesifik di dalam sistem Open Library, namun Anda dapat menghubungi kontak tersebut untuk panduan operasionalnya.",
+      "f1_score": 0.298,
+      "context_recall": 0.7,
+      "pass": true
+    }
+  ]
+}

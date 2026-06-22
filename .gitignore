@@ -7,3 +7,4 @@ CLAUDE.md
 # Tesseract OCR language-data cache (auto-downloaded)
 .tesseract-cache/
 .claude
+database/chat.json

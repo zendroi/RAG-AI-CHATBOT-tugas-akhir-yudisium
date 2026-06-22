@@ -1,4 +1,4 @@
-const { pool } = require('../db');
+const { pool } = require('../database/db');
 
 const User = {
   // Cari user berdasarkan email

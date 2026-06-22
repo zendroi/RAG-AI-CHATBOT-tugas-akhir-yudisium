@@ -2,16 +2,25 @@ const fs = require('fs');
 const path = require('path');
 
 const DashboardController = require('../controllers/DashboardController');
+const HomeController = require('../controllers/HomeController');
 const KnowledgeController = require('../controllers/KnowledgeController');
+const ChatLogController = require('../controllers/ChatLogController');
 const SmartCheckController = require('../controllers/SmartCheckController');
+const AuthController = require('../controllers/AuthController');
+const UserChatController = require('../controllers/UserChatController');
 const { requireAuth, requireAdmin } = require('../middleware/authMiddleware');
 
 const dashboardController = new DashboardController();
+const homeController = new HomeController();
 const knowledgeController = new KnowledgeController();
 const smartCheckController = new SmartCheckController();
+const chatLogController = new ChatLogController();
+const authController = new AuthController();
+const userChatController = new UserChatController();
 
 
 class Routes {
+
 
     constructor(app, path) {
         this.app = app;
@@ -21,12 +30,33 @@ class Routes {
 
     init() {
 
-        this.app.get('/dashboard', (req, res) => {
+        this.app.get('/login', (req, res) => {
+            authController.login(req, res, this.path);
+        });
+
+        this.app.get('/register', (req, res) => {
+            authController.register(req, res, this.path);
+        });
+
+        this.app.get('/chat', requireAuth, (req, res) => {
+            userChatController.index(req, res, this.path);
+        });
+
+        this.app.get('/dashboard', requireAdmin, (req, res) => {
             dashboardController.index(req, res, this.path);
         });
 
-        this.app.get('/knowledge', (req, res) => {
+        this.app.get('/home', requireAuth, (req, res) => {
+            homeController.index(req, res, this.path);
+        });
+
+
+        this.app.get('/knowledge', requireAdmin, (req, res) => {
             knowledgeController.index(req, res, this.path);
+        });
+
+        this.app.get('/chatlog', requireAdmin, (req, res) => {
+            chatLogController.index(req, res, this.path);
         });
 
     }

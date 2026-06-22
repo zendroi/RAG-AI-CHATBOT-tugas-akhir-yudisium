@@ -501,14 +501,14 @@ class DatasetManager {
     const chunks = this.splitIntoChunks(text)
       .filter(chunkText => !this.isTableOfContentsChunk(chunkText))
       .map((chunkText, idx) => ({
-      id: `${id}-${idx + 1}`,
-      sourceId: id,
-      source: originalName,
-      chunk: idx + 1,
-      text: chunkText,
-      domain: 'ta-yudisium',
-      createdAt: new Date().toISOString()
-    }));
+        id: `${id}-${idx + 1}`,
+        sourceId: id,
+        source: originalName,
+        chunk: idx + 1,
+        text: chunkText,
+        domain: 'ta-yudisium',
+        createdAt: new Date().toISOString()
+      }));
 
     source.name = originalName;
     source.storedName = storedName;

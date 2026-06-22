@@ -77,9 +77,9 @@ async function loadPages() {
     }
 };
 
-const SIDEBAR_GROUP_BY_LABEL = { knowledge: 'Manajemen' };
-const SIDEBAR_ICON_BY_LABEL = { dashboard: 'ti-layout-dashboard', knowledge: 'ti-database' };
-const SIDEBAR_TITLE_BY_LABEL = { knowledge: 'Knowledge Base' };
+const SIDEBAR_GROUP_BY_LABEL = { knowledge: 'Manajemen', chatlog: 'Manajemen' };
+const SIDEBAR_ICON_BY_LABEL = { dashboard: 'ti-layout-dashboard', knowledge: 'ti-database', chatlog: 'ti-message-2' };
+const SIDEBAR_TITLE_BY_LABEL = { knowledge: 'Knowledge Base', chatlog: 'Chat Log' };
 
 // "/admin" is served by the dashboard.html nav entry — map it back to that label.
 function activePageFromPath(pathname) {
@@ -110,16 +110,24 @@ async function groupSidebar(pages) {
         return;
     }
 
-    content.innerHTML = Object.entries(grouped).map(([groupName, files]) => `
-        <p class="sidebar-text text-[10px] font-medium uppercase tracking-widest text-gray-400 px-2 pt-3 pb-1">${groupName}</p>
-        ${files.map(file => `
-            <a href="${file.label === 'dashboard' ? '/admin' : '/' + file.label}" data-page="${file.label}"
-                class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors whitespace-nowrap overflow-hidden">
-                <i class="ti ${SIDEBAR_ICON_BY_LABEL[file.label.toLowerCase()] || 'ti-file-text'} text-lg w-5 text-center flex-shrink-0"></i>
-                <span class="sidebar-text capitalize">${SIDEBAR_TITLE_BY_LABEL[file.label.toLowerCase()] || file.label}</span>
-            </a>
-        `).join('')}
-    `).join('');
+    const GROUP_ORDER = ['Main', 'Manajemen'];
+
+    content.innerHTML = Object.entries(grouped)
+        .sort(([a], [b]) => {
+            const ai = GROUP_ORDER.indexOf(a);
+            const bi = GROUP_ORDER.indexOf(b);
+            return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+        })
+        .map(([groupName, files]) => `
+    <p class="sidebar-text text-[10px] font-medium uppercase tracking-widest text-gray-400 px-2 pt-3 pb-1">${groupName}</p>
+    ${files.map(file => `
+      <a href="${file.label === 'dashboard' ? '/admin' : '/' + file.label}" data-page="${file.label}"
+        class="nav-item flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors whitespace-nowrap overflow-hidden">
+        <i class="ti ${SIDEBAR_ICON_BY_LABEL[file.label.toLowerCase()] || 'ti-file-text'} text-lg w-5 text-center flex-shrink-0"></i>
+        <span class="sidebar-text capitalize">${SIDEBAR_TITLE_BY_LABEL[file.label.toLowerCase()] || file.label}</span>
+      </a>
+    `).join('')}
+  `).join('');
 
     markActiveNav(window.location.pathname);
 }
@@ -156,6 +164,9 @@ async function runShellPageScript(url) {
     if (url.includes('/knowledge')) {
         if (window.KnowledgePage) window.KnowledgePage.init();
         else await loadScriptOnce('/src/js/knowledge.js');
+    } else if (url.includes('/chatlog')) {
+        if (window.RiwayatPage) window.RiwayatPage.init();
+        else await loadScriptOnce('/src/js/riwayat.js');
     } else {
         if (window.AdminPage) window.AdminPage.init();
         else await loadScriptOnce('/app.js');

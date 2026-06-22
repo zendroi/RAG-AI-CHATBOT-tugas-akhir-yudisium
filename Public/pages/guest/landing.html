@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Asisten chatbot RAG untuk Tugas Akhir dan Yudisium — tanya syarat sidang, cek kelulusan, dan ambil dokumen akademik secara instan."
+    />
+    <link rel="icon" href="data:," />
+    <link
+      rel="preload"
+      as="image"
+      href="../../assets/download.jpeg"
+      fetchpriority="high"
+    />
+    <script src="../../src/js/page-transition.js"></script>
+    <title>SHRUHH SSC Chatbot — Asisten Tugas Akhir & Yudisium</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../../src/css/landing.css" />
+  </head>
+  <body>
+    <div class="bg-abstract"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <div class="brand">
+          <svg
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="35"
+              y="10"
+              width="15"
+              height="45"
+              rx="7.5"
+              transform="rotate(35 35 10)"
+              fill="#7c3aed"
+            />
+            <rect
+              x="50"
+              y="45"
+              width="15"
+              height="45"
+              rx="7.5"
+              transform="rotate(35 50 45)"
+              fill="#4c1d95"
+            />
+          </svg>
+          SHRUHH SSC Chatbot
+        </div>
+        <nav class="nav-links">
+          <a href="/login">Masuk</a>
+          <a href="/register" class="btn-primary-sm">Daftar</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="wrap hero">
+        <div class="hero-text">
+          <span class="badge"
+            ><i class="ti ti-sparkles"></i> RAG-Powered &middot; Telkom
+            University Surabaya</span
+          >
+          <h1>
+            Asisten cerdas untuk
+            <span class="grad-text">Tugas Akhir</span> &amp;
+            <span class="grad-text">Yudisium</span> kamu
+          </h1>
+          <p class="lead">
+            Tanya syarat sidang, cek kelengkapan kelulusan, atau minta dokumen
+            akademik — semua dijawab instan dari dokumen resmi kampus, kapan
+            saja.
+          </p>
+          <div class="hero-cta">
+            <a href="/login" class="btn-primary"
+              >Mulai Tanya <i class="ti ti-arrow-right"></i
+            ></a>
+            <a href="/register" class="btn-ghost">Buat Akun Baru</a>
+          </div>
+          <div class="stat-row">
+            <div class="stat">
+              <strong data-count="2">0</strong
+              ><span>Mesin AI (Gemini + fallback)</span>
+            </div>
+            <div class="stat">
+              <strong data-count="24">0</strong><span>Jam siap bantu</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-mock">
+          <div class="mock-card">
+            <div class="mock-head">
+              <span class="dot"></span> SHRUHH SSC Chatbot &middot; Online
+            </div>
+            <div class="mock-body" id="mockChat"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Fitur</span>
+          <h2>Satu chatbot, semua kebutuhan TA &amp; Yudisium</h2>
+          <p>
+            Dibangun di atas dokumen akademik resmi kampus — bukan jawaban asal
+            tebak.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card reveal">
+            <div class="icon"><i class="ti ti-message-chatbot"></i></div>
+            <h3>FAQ Generatif (RAG)</h3>
+            <p>
+              Tanya bebas soal sidang, pembimbing, atau administrasi — dijawab
+              AI berbasis dokumen TA &amp; Yudisium asli.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="icon"><i class="ti ti-checklist"></i></div>
+            <h3>Smart Check Kelulusan</h3>
+            <p>
+              Isi status SKS, IPK, bimbingan sekali — chatbot kasih checklist
+              syarat yang masih kurang.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="icon"><i class="ti ti-database"></i></div>
+            <h3>Knowledge Base Terkurasi</h3>
+            <p>
+              Dokumen akademik dikelola admin SSC, dikategorikan Tugas Akhir,
+              Yudisium, dan Umum.
+            </p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="icon"><i class="ti ti-file-download"></i></div>
+            <h3>Ambil Dokumen Instan</h3>
+            <p>
+              Sebut nama dokumennya di chat, langsung dapat link unduh resminya
+              — tanpa cari-cari manual.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Cara kerja</span>
+          <h2>Tiga langkah, langsung dapat jawaban</h2>
+        </div>
+        <div class="steps-row">
+          <div class="step reveal">
+            <div class="num">1</div>
+            <h3>Masuk / daftar akun</h3>
+            <p>Login pakai akun kampus kamu, gratis dan cuma butuh sebentar.</p>
+          </div>
+          <div class="step reveal">
+            <div class="num">2</div>
+            <h3>Tanya atau cek status</h3>
+            <p>
+              Ketik pertanyaan bebas, atau isi form smart-check untuk cek
+              kelengkapan syarat.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="num">3</div>
+            <h3>Dapat jawaban + dokumen</h3>
+            <p>
+              Jawaban instan lengkap dengan sumber dan link unduh dokumen jika
+              dibutuhkan.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <div class="cta-banner reveal">
+          <h2>Siap mulai?</h2>
+          <p>
+            Masuk sekarang dan tanyakan apa saja soal TA &amp; Yudisium kamu.
+          </p>
+          <a href="/login" class="btn-primary"
+            >Masuk Sekarang <i class="ti ti-arrow-right"></i
+          ></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        SHRUHH SSC Chatbot &mdash; Asisten Tugas Akhir &amp; Yudisium, Telkom
+        University Surabaya.
+      </p>
+    </footer>
+
+   
+
+    <script src="../../src/js/landing.js"></script>
+   
+  </body>
+</html>

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="data:," />
+    <link
+      rel="preload"
+      as="image"
+      href="../../assets/download.jpeg"
+      fetchpriority="high"
+    />
+    <script src="../../src/js/page-transition.js"></script>
+    <title>Register - SHRUHH SSC Chatbot</title>
+    <!-- Tailwind CSS CDN with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- BEGIN: Custom Configurations -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brandPurple: "#1a0b2e",
+              accentViolet: "#a78bfa",
+              glassBg: "rgba(255, 255, 255, 0.1)",
+              glassBorder: "rgba(255, 255, 255, 0.2)",
+            },
+            backgroundImage: {
+              "main-gradient":
+                "linear-gradient(135deg, #2d1b4d 0%, #1a0b2e 100%)",
+              "button-gradient": "linear-gradient(to bottom, #b794f4, #805ad5)",
+            },
+          },
+        },
+      };
+    </script>
+    <!-- END: Custom Configurations -->
+    <!-- BEGIN: Custom Styles -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="preload"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style data-purpose="background-animations">
+      body {
+        /* No background-color: .bg-abstract is a negative z-index child and
+         body's own opaque bg would paint over it. html's bg is the fallback. */
+        overflow: hidden;
+        min-height: 100vh;
+        font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: -0.01em;
+      }
+
+      .bg-abstract {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image:
+          radial-gradient(
+            900px 600px at 12% -5%,
+            rgba(167, 139, 250, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 600px at 100% 105%,
+            rgba(124, 58, 237, 0.22),
+            transparent 55%
+          ),
+          url("assets/download.jpeg");
+        background-size: cover;
+        background-position: center;
+        filter: blur(5px);
+        transform: scale(1.1);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow:
+          0 24px 70px -12px rgba(0, 0, 0, 0.85),
+          0 0 0 1px rgba(167, 139, 250, 0.08);
+      }
+
+      .text-shadow {
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+    <style data-purpose="form-elements">
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      input {
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+      }
+
+      input:focus {
+        outline: none;
+        box-shadow: none !important;
+        border-color: rgba(167, 139, 250, 0.5) !important;
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      button[type="submit"] {
+        transition:
+          filter 0.2s ease,
+          transform 0.12s ease,
+          box-shadow 0.2s ease;
+      }
+    </style>
+    <!-- END: Custom Styles -->
+  </head>
+  <body
+    class="flex items-center justify-center min-h-screen font-sans text-white"
+  >
+    <!-- Background Layer -->
+    <div aria-hidden="true" class="bg-abstract"></div>
+    <!-- BEGIN: MainContainer -->
+    <main
+      class="relative z-10 w-full max-w-md px-6 py-12"
+      data-purpose="register-container"
+    >
+      <!-- BEGIN: GlassCard -->
+      <section
+        class="glass-card rounded-[40px] px-8 py-12 flex flex-col items-center"
+      >
+        <!-- BEGIN: Branding -->
+        <div class="mb-8 text-center" data-purpose="logo-section">
+          <div class="flex flex-col items-center gap-2 mb-2">
+            <svg
+              fill="none"
+              height="60"
+              viewbox="0 0 100 100"
+              width="60"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                fill="#7c3aed"
+                fill-opacity="0.8"
+                height="45"
+                rx="7.5"
+                transform="rotate(35 35 10)"
+                width="15"
+                x="35"
+                y="10"
+              ></rect>
+              <rect
+                fill="#4c1d95"
+                fill-opacity="0.8"
+                height="45"
+                rx="7.5"
+                transform="rotate(35 50 45)"
+                width="15"
+                x="50"
+                y="45"
+              ></rect>
+            </svg>
+            <h1 class="text-2xl font-semibold tracking-widest uppercase">
+              SHRUHH SSC Chatbot
+            </h1>
+          </div>
+          <h2 class="text-2xl font-light mt-4 tracking-wide text-shadow">
+            Create Your Account
+          </h2>
+        </div>
+        <!-- END: Branding -->
+        <!-- BEGIN: RegisterForm -->
+        <form
+          action="#"
+          class="w-full space-y-6"
+          data-purpose="register-form"
+          id="registerForm"
+          method="POST"
+        >
+          <!-- Username Field -->
+          <div class="space-y-2">
+            <label class="block text-sm font-light ml-2" for="username"
+              >Username</label
+            >
+            <input
+              class="w-full bg-black/20 border border-white/20 rounded-xl py-3 px-4 text-white focus:ring-0 focus:border-purple-400 transition-all duration-300"
+              id="username"
+              name="username"
+              required=""
+              type="text"
+            />
+          </div>
+          <!-- Email Field -->
+          <div class="space-y-2">
+            <label class="block text-sm font-light ml-2" for="email"
+              >Email address</label
+            >
+            <input
+              class="w-full bg-black/20 border border-white/20 rounded-xl py-3 px-4 text-white focus:ring-0 focus:border-purple-400 transition-all duration-300"
+              id="email"
+              name="email"
+              required=""
+              type="email"
+            />
+          </div>
+          <!-- Password Field -->
+          <div class="space-y-2">
+            <label class="block text-sm font-light ml-2" for="password"
+              >Password</label
+            >
+            <input
+              class="w-full bg-black/20 border border-white/20 rounded-xl py-3 px-4 text-white focus:ring-0 focus:border-purple-400 transition-all duration-300"
+              id="password"
+              name="password"
+              required=""
+              type="password"
+            />
+          </div>
+          <!-- Messages -->
+          <p
+            id="errorMsg"
+            style="color: salmon; display: none; text-align: center; margin: 0"
+          ></p>
+          <p
+            id="successMsg"
+            style="color: #a7f3d0; display: none; text-align: center; margin: 0"
+          ></p>
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button
+              class="w-full bg-button-gradient py-3.5 rounded-xl font-semibold text-lg shadow-lg hover:shadow-purple-500/20 hover:brightness-110 active:scale-[0.98] transition-all duration-200"
+              type="submit"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+        <!-- END: RegisterForm -->
+        <!-- BEGIN: FooterLinks -->
+        <footer class="mt-12 text-center" data-purpose="form-footer">
+          <p class="text-sm font-light">
+            Already have an account ?
+            <a class="font-bold hover:underline transition-all" href="/login"
+              >Login</a
+            >
+          </p>
+        </footer>
+        <!-- END: FooterLinks -->
+      </section>
+      <!-- END: GlassCard -->
+      <!-- BEGIN: FloatingControls -->
+      <div
+        class="fixed bottom-8 right-8 flex flex-col gap-4"
+        data-purpose="ui-controls"
+      >
+        <button
+          class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center hover:bg-white/30 transition-colors"
+        >
+          <svg
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewbox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8M3 3l6 6M3 3v4.8M3 7.8V3h4.8M21 3l-6 6m6-6v4.8m0-4.8h-4.8M3 21l6-6m-6 6v-4.8m0 4.8h4.8"
+            ></path>
+          </svg>
+        </button>
+        <button
+          class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center hover:bg-white/30 transition-colors"
+        >
+          <svg
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewbox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+            <path d="M11 8a3 3 0 0 1 0 6"></path>
+          </svg>
+        </button>
+      </div>
+      <!-- END: FloatingControls -->
+    </main>
+    <!-- END: MainContainer -->
+    <script src="../../src/js/register.js"></script>
+  </body>
+</html>

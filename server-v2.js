@@ -11,9 +11,9 @@ const RAGEngine = require('./Lib/rag');
 const DatasetManager = require('./Lib/dataset');
 const PagesManager = require('./Lib/pages');
 const { matchDocumentRequest, matchLinkSource } = require('./Lib/documentDelivery');
-
+const { Transform, Parser } = require('json2csv');
 const RoutesManager = require('./routes');
-const { connectDB } = require('./db');
+const { connectDB } = require('./database/db');
 const authRoutes = require('./routes/auth');
 const { requireAuth, requireAdmin } = require('./middleware/authMiddleware');
 
@@ -66,28 +66,15 @@ function redirectIfLoggedIn(req, res) {
 
 app.get('/', (req, res) => {
   if (redirectIfLoggedIn(req, res)) return;
-  res.sendFile(path.join(__dirname, 'Public', 'landing.html'));
+  res.sendFile(path.join(__dirname, 'Public/pages/guest/', 'landing.html'));
 });
 
-app.get('/login', (req, res) => {
-  if (redirectIfLoggedIn(req, res)) return;
-  res.sendFile(path.join(__dirname, 'Public', 'login.html'));
-});
-
-app.get('/register', (req, res) => {
-  if (redirectIfLoggedIn(req, res)) return;
-  res.sendFile(path.join(__dirname, 'Public', 'register.html'));
-});
-
-app.get('/chat', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'Public', 'chat.html'));
-});
 
 // Old bookmarks/links — keep working, just hop to the renamed route.
-app.get('/home', requireAuth, (req, res) => res.redirect('/chat'));
+app.get('/home', requireAuth, (req, res) => res.redirect('/home'));
 
 app.get('/admin', requireAdmin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'Public', 'admin.html'));
+  res.sendFile(path.join(__dirname, 'Public/pages/admin/', 'admin.html'));
 });
 
 // Sidebar partial content depends on role (admin dashboard nav vs student chat nav) —
@@ -650,35 +637,85 @@ app.post('/api/chat', requireAuth, async (req, res) => {
   }
 
   const answer = await answerQuestion(question);
+
+  try {
+    const chatPath = path.join(__dirname, 'database', 'chat.json');
+    let chatData = { logs: [] };
+    if (fs.existsSync(chatPath)) {
+      chatData = JSON.parse(await fs.promises.readFile(chatPath, 'utf8'));
+    }
+    chatData.logs.push({
+      id: Date.now(),
+      user_id: req.session.user.id,
+      username: req.session.user.username,
+      question,
+      answer,
+      created_at: new Date().toISOString()
+    });
+    await fs.promises.writeFile(chatPath, JSON.stringify(chatData, null, 2), 'utf8');
+  } catch (logErr) {
+    console.warn('Chat log gagal:', logErr.message);
+  }
+
   res.json({ answer });
 });
 
-const { Transform, Parser } = require('json2csv');
+app.get('/api/chat-history', requireAuth, async (req, res) => {
+  try {
+    const chatPath = path.join(__dirname, 'database', 'chat.json');
+    if (!fs.existsSync(chatPath)) return res.json({ logs: [] });
+
+    const chatData = JSON.parse(await fs.promises.readFile(chatPath, 'utf8'));
+    const userId = req.session.user.id;
+
+    const userLogs = (chatData.logs || [])
+      .filter(log => log.user_id === userId)
+      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+    res.json({ logs: userLogs });
+  } catch (err) {
+    console.error('Chat history error:', err);
+    res.status(500).json({ logs: [] });
+  }
+});
+
+app.get('/api/admin/chat-logs', requireAuth, async (req, res) => {
+  if (req.session.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+  try {
+    const chatPath = path.join(__dirname, 'database', 'chat.json');
+    if (!fs.existsSync(chatPath)) return res.json({ logs: [] });
+    const chatData = JSON.parse(await fs.promises.readFile(chatPath, 'utf8'));
+    res.json({ logs: chatData.logs || [] });
+  } catch (err) {
+    console.error('Admin chat-logs error:', err);
+    res.status(500).json({ logs: [] });
+  }
+});
 
 app.get('/download-data-stream', async (req, res) => {
-    try {
-        const filePath = path.join(__dirname, 'datasets', 'academic-documents.json');
-        const fileContent = await fs.promises.readFile(filePath, 'utf8');
-        const jsonData = JSON.parse(fileContent);
-        const dataToParse = jsonData.sources || [];
+  try {
+    const filePath = path.join(__dirname, 'datasets', 'academic-documents.json');
+    const fileContent = await fs.promises.readFile(filePath, 'utf8');
+    const jsonData = JSON.parse(fileContent);
+    const dataToParse = jsonData.sources || [];
 
-        const parser = new Parser({ fields: ['id', 'name', 'type', 'category'] });
-        const csv = parser.parse(dataToParse);
+    const parser = new Parser({ fields: ['id', 'name', 'type', 'category'] });
+    const csv = parser.parse(dataToParse);
 
-        // Simpan ke folder project
-        const outputPath = path.join(__dirname, 'exports', 'academic-documents.csv');
-        fs.mkdirSync(path.join(__dirname, 'exports'), { recursive: true }); // buat folder jika belum ada
-        await fs.promises.writeFile(outputPath, csv, 'utf8');
+    // Simpan ke folder project
+    const outputPath = path.join(__dirname, 'exports', 'academic-documents.csv');
+    fs.mkdirSync(path.join(__dirname, 'exports'), { recursive: true }); // buat folder jika belum ada
+    await fs.promises.writeFile(outputPath, csv, 'utf8');
 
-        // Sekaligus kirim ke browser untuk didownload
-        res.header('Content-Type', 'text/csv');
-        res.attachment('academic-documents.csv');
-        res.send(csv);
+    // Sekaligus kirim ke browser untuk didownload
+    res.header('Content-Type', 'text/csv');
+    res.attachment('academic-documents.csv');
+    res.send(csv);
 
-    } catch (err) {
-        console.error('Backend Error:', err);
-        res.status(500).send('Terjadi kesalahan pada server');
-    }
+  } catch (err) {
+    console.error('Backend Error:', err);
+    res.status(500).send('Terjadi kesalahan pada server');
+  }
 });
 
 app.listen(PORT, () => {

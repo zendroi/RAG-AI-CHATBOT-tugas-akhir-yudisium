@@ -4,6 +4,9 @@ const StudentStatus = require('../models/StudentStatus');
 const ALLOWED_JENIS = new Set(Object.keys(rules));
 
 class SmartCheckController {
+
+
+
   fields(req, res) {
     const { jenis } = req.params;
     if (!ALLOWED_JENIS.has(jenis)) {

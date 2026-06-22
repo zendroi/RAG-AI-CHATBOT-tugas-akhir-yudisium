@@ -78,7 +78,7 @@
   }
 
   async function runScript() {
-    for (;;) {
+    for (; ;) {
       for (const line of SCRIPT) {
         const bubble = makeBubble(line.who);
         if (line.who === 'bot') {
@@ -95,5 +95,45 @@
     }
   }
 
+
   runScript();
+
+  const fab = document.getElementById("fab");
+  const panel = document.getElementById("chat-panel");
+  const closeBtn = document.getElementById("closeChat");
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("chatInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const messages = document.getElementById("chatMessages");
+  const emptyState = document.getElementById("emptyState");
+
+  function openChat() {
+    panel.classList.add("open");
+    setTimeout(() => input.focus(), 150);
+  }
+  function closeChat() {
+    panel.classList.remove("open");
+  }
+  function toggleChat() {
+    panel.classList.contains("open") ? closeChat() : openChat();
+  }
+
+  fab.addEventListener("click", toggleChat);
+  closeBtn.addEventListener("click", closeChat);
+
+  document
+    .getElementById("openChatHero")
+    ?.addEventListener("click", openChat);
+  document
+    .getElementById("openChatCta")
+    ?.addEventListener("click", openChat);
+
+  input.addEventListener("input", () => {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 90) + "px";
+  });
+
+  
 })();
+
+
