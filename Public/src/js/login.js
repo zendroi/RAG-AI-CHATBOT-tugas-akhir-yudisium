@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Redirect berdasarkan role (fade out first so it matches link-click nav)
-      const target = data.user?.role === "admin" ? "/admin" : "/chat";
+      const target = data.user?.role === "admin" ? "/admin" : "/home";
       document.body.classList.remove("page-ready");
       setTimeout(() => { window.location.href = target; }, 180);
 

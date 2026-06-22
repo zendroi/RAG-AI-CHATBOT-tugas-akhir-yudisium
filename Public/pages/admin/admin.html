@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <link
+      rel="preload"
+      as="image"
+      href="../../assets/download.jpeg"
+      fetchpriority="high"
+    />
+    <script src="../../src/js/page-transition.js"></script>
+    <title>Admin Chatbot TA dan Yudisium</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="../../src/css/output.css" />
+    <link rel="stylesheet" href="../../src/css/style.css" />
+    <link rel="stylesheet" href="../../src/css/dark-theme.css" />
+  </head>
+  <body>
+    <div class="bg-abstract"></div>
+    <div class="flex">
+      <div id="sidebar"></div>
+      <div class="main-content w-full" style="min-width: 0">
+        <header>
+          <div class="wrap topbar">
+            <div>
+              <h1>Dashboard</h1>
+              <p class="meta">
+                Ringkasan sistem chatbot. Untuk kelola dokumen, buka menu
+                <strong>Knowledge Base</strong> di sidebar.
+              </p>
+            </div>
+            <div class="status">
+              <span class="dot" id="statusDot"></span>
+              <span id="statusText">Memuat status...</span>
+            </div>
+          </div>
+        </header>
+
+        <main class="wrap">
+          <div class="panel">
+            <h2>Status Sistem</h2>
+            <div class="status-grid">
+              <div class="metric">
+                <strong id="documentCount">0</strong>
+                <span>Dokumen</span>
+              </div>
+              <div class="metric">
+                <strong id="chunkCount">0</strong>
+                <span>Potongan RAG</span>
+              </div>
+              <div class="metric">
+                <strong id="geminiStatus">-</strong>
+                <span>Gemini</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top: 18px">
+            <section>
+              <div class="panel">
+                <h2>Uji Coba Chatbot</h2>
+                <p class="hint" style="margin-bottom: 14px">
+                  Coba tanya seperti mahasiswa untuk memastikan jawaban bot
+                  sudah benar sebelum dipublikasikan.
+                </p>
+                <label for="question">Pertanyaan</label>
+                <textarea
+                  id="question"
+                  placeholder="Contoh: Apa saja syarat pendaftaran sidang tugas akhir?"
+                ></textarea>
+                <div class="actions">
+                  <button id="askBtn" type="button">Kirim Tes</button>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="panel">
+                <h2>Jawaban Bot</h2>
+                <div class="answer" id="answer">
+                  Jawaban akan muncul di sini.
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="../../src/js/layout.js"></script>
+    <script src="../../app.js"></script>
+  </body>
+</html>

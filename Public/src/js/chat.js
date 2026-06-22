@@ -178,6 +178,43 @@
     });
   }
 
+  // Taruh di dalam IIFE, sebelum DOMContentLoaded
+async function loadChatHistory(messages, emptyState) {
+  try {
+    const res = await fetch('/api/chat-history');
+    const data = await res.json();
+    if (!data.logs || !data.logs.length) return;
+
+    // Ada riwayat — hapus empty state
+    if (emptyState) emptyState.remove();
+
+    // Render semua riwayat
+    data.logs.forEach(log => {
+      // Pesan user
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg user';
+      userMsg.textContent = log.question;
+      messages.appendChild(userMsg);
+
+      // Pesan bot
+      const botMsg = document.createElement('div');
+      botMsg.className = 'msg bot';
+      botMsg.innerHTML = linkify(log.answer);
+      messages.appendChild(botMsg);
+    });
+
+    // Tambah divider pemisah riwayat vs chat baru
+    const divider = document.createElement('div');
+    divider.className = 'history-divider';
+    divider.innerHTML = '<span>— Percakapan baru —</span>';
+    messages.appendChild(divider);
+
+    messages.scrollTop = messages.scrollHeight;
+  } catch (err) {
+    console.warn('Gagal load riwayat:', err.message);
+  }
+}
+
   // ===================== Chat =====================
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("chatForm");
@@ -189,6 +226,7 @@
     const statusText = document.getElementById('statusText');
 
     loadStatusCards();
+     loadChatHistory(messages, emptyState);
 
     fetch('/api/status').then(r => r.json()).then(data => {
       if (statusDot) statusDot.classList.toggle('ok', data.server === 'online');
