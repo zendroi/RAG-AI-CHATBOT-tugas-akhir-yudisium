@@ -12,11 +12,15 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             input: {
-                main: resolve(__dirname, 'Public/index.html'),
+                landing: resolve(__dirname, 'Public/pages/guest/landing.html'),
+                login: resolve(__dirname, 'Public/pages/auth/login.html'),
+                register: resolve(__dirname, 'Public/pages/auth/register.html'),
+                admin: resolve(__dirname, 'Public/pages/admin/admin.html'),
+                home: resolve(__dirname, 'Public/pages/admin/home.html'),
+                user_chat: resolve(__dirname, 'Public/pages/user/chat.html'),
+                chatlog: resolve(__dirname, 'Public/pages/chatlog.html'),
                 dashboard: resolve(__dirname, 'Public/pages/dashboard.html'),
-                knowledge: resolve(__dirname, 'Public/pages/knowledge.html'),
-                tugasAkhir: resolve(__dirname, 'Public/pages/tugasAkhir.html'),
-                yudisium: resolve(__dirname, 'Public/pages/yudisium.html'),
+                knowledge: resolve(__dirname, 'Public/pages/knowledge.html')
             }
         }
     }

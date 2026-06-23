@@ -11,7 +11,7 @@
     <link
       rel="preload"
       as="image"
-      href="../../assets/download.jpeg"
+      href="/assets/download-OG5jCo7k.jpeg"
       fetchpriority="high"
     />
     <script src="../../src/js/page-transition.js"></script>
@@ -27,7 +27,10 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../../src/css/landing.css" />
+    <script type="module" crossorigin src="/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
+    <script type="module" crossorigin src="/assets/landing-CkonIQms.js"></script>
+    <script type="module" crossorigin src="/assets/chat-DQWX2bCT.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/home-C__ytDgr.css">
   </head>
   <body>
     <div class="bg-abstract"></div>
@@ -65,8 +68,7 @@
           SHRUHH SSC Chatbot
         </div>
         <nav class="nav-links">
-          <a href="/login">Masuk</a>
-          <a href="/register" class="btn-primary-sm">Daftar</a>
+          <a href="/chat">Syarat Kelulusan</a>
         </nav>
       </div>
     </header>
@@ -89,10 +91,9 @@
             saja.
           </p>
           <div class="hero-cta">
-            <a href="/login" class="btn-primary"
+            <a href="/chat" class="btn-primary"
               >Mulai Tanya <i class="ti ti-arrow-right"></i
             ></a>
-            <a href="/register" class="btn-ghost">Buat Akun Baru</a>
           </div>
           <div class="stat-row">
             <div class="stat">
@@ -163,16 +164,12 @@
       <section class="wrap">
         <div class="section-head reveal">
           <span class="eyebrow">Cara kerja</span>
-          <h2>Tiga langkah, langsung dapat jawaban</h2>
+          <h2>Dua langkah, langsung dapat jawaban</h2>
         </div>
         <div class="steps-row">
+        
           <div class="step reveal">
             <div class="num">1</div>
-            <h3>Masuk / daftar akun</h3>
-            <p>Login pakai akun kampus kamu, gratis dan cuma butuh sebentar.</p>
-          </div>
-          <div class="step reveal">
-            <div class="num">2</div>
             <h3>Tanya atau cek status</h3>
             <p>
               Ketik pertanyaan bebas, atau isi form smart-check untuk cek
@@ -180,7 +177,7 @@
             </p>
           </div>
           <div class="step reveal">
-            <div class="num">3</div>
+            <div class="num">2</div>
             <h3>Dapat jawaban + dokumen</h3>
             <p>
               Jawaban instan lengkap dengan sumber dan link unduh dokumen jika
@@ -190,17 +187,7 @@
         </div>
       </section>
 
-      <section class="wrap">
-        <div class="cta-banner reveal">
-          <h2>Siap mulai?</h2>
-          <p>
-            Masuk sekarang dan tanyakan apa saja soal TA &amp; Yudisium kamu.
-          </p>
-          <a href="/login" class="btn-primary"
-            >Masuk Sekarang <i class="ti ti-arrow-right"></i
-          ></a>
-        </div>
-      </section>
+    
     </main>
 
     <footer class="site-footer">
@@ -210,9 +197,95 @@
       </p>
     </footer>
 
-   
+    <!-- ===== Floating Chatbot ===== -->
+    <button id="fab" aria-label="Buka chat SHRUHH">
+      <span class="pulse"></span>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+        ></path>
+      </svg>
+    </button>
 
-    <script type="module" src="../../src/js/landing.js"></script>
+    <div id="chat-panel">
+      <div class="chat-head">
+        <div class="who">
+          <div class="avatar">S</div>
+          <div>
+            <h4>SHRUHH</h4>
+            <span>Online</span>
+          </div>
+        </div>
+        <button class="chat-close" id="closeChat" aria-label="Tutup chat">
+          &times;
+        </button>
+      </div>
+      <div class="chat-body" id="chatMessages">
+        <div class="chat-empty" id="emptyState">
+          <svg
+            fill="none"
+            width="60"
+            height="60"
+            viewBox="0 0 100 100"
+            class="mx-auto mb-3"
+          >
+            <rect
+              x="35"
+              y="10"
+              width="15"
+              height="45"
+              rx="7.5"
+              transform="rotate(35 35 10)"
+              fill="#be123c"
+            />
+            <rect
+              x="50"
+              y="45"
+              width="15"
+              height="45"
+              rx="7.5"
+              transform="rotate(35 50 45)"
+              fill="#4c0519"
+            />
+          </svg>
+          <h2>SHRUHH CHATBOT</h2>
+          <p>
+            Tanyakan apa saja seputar Tugas Akhir, sidang, pembimbing, yudisium,
+            kelulusan, dan administrasi akademik.
+          </p>
+          <div class="quick-row">
+            <span class="quick-chip" data-q="Bagaimana cara daftar sidang TA?"
+              >Daftar sidang TA</span
+            >
+            <span class="quick-chip" data-q="Apa saja syarat yudisium?"
+              >Syarat yudisium</span
+            >
+            <span
+              class="quick-chip"
+              data-q="Bagaimana cara mengajukan pembimbing?"
+              >Ajukan pembimbing</span
+            >
+          </div>
+        </div>
+      </div>
+      <form class="chat-input-bar" id="chatForm">
+        <textarea
+          id="chatInput"
+          placeholder="Tulis pertanyaan kamu..."
+          rows="1"
+          required
+        ></textarea>
+        <button type="submit" id="sendBtn">Kirim</button>
+      </form>
+    </div>
+
    
   </body>
 </html>

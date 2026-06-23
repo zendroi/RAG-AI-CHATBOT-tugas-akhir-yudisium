@@ -1,6 +1,6 @@
 <aside
   id="sidebars"
-  class="group flex flex-col  h-screen bg-white border-r border-gray-200 transition-all duration-200 ease-in-out"
+  class="group flex flex-col h-screen bg-white border-r border-gray-200 transition-all duration-200 ease-in-out"
 >
   <!-- Brand -->
   <div
@@ -20,7 +20,7 @@
   </div>
 
   <!-- Nav -->
-<nav class="flex-1 px-2 py-3 flex h-full flex-col gap-4">
+  <nav class="flex-1 px-2 py-3 flex h-full flex-col gap-4">
     <button
       type="button"
       data-tab="status"
@@ -34,10 +34,11 @@
       data-tab="chat"
       class="nav-item active mb-5 w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors whitespace-nowrap overflow-hidden"
     >
-      <i class="ti ti-message-chatbot text-lg w-5 text-center flex-shrink-0"></i>
+      <i
+        class="ti ti-message-chatbot text-lg w-5 text-center flex-shrink-0"
+      ></i>
       <span class="sidebar-text">Chat</span>
     </button>
-  
   </nav>
 
   <!-- Footer -->
@@ -51,7 +52,7 @@
         class="ti ti-layout-sidebar-left-collapse text-base transition-transform duration-200"
         id="toggleIcon"
       ></i>
-      <span class="sidebar-text  text-sm">Sembunyikan</span>
+      <span class="sidebar-text text-sm">Sembunyikan</span>
     </button>
 
     <!-- User row -->
@@ -65,7 +66,9 @@
         MH
       </div>
       <div class="sidebar-text overflow-hidden">
-        <p class="text-sm font-medium text-gray-900 truncate" id="studentName">Mahasiswa</p>
+        <p class="text-sm font-medium text-gray-900 truncate" id="studentName">
+          Mahasiswa
+        </p>
         <p class="text-xs text-gray-400 flex items-center gap-1">
           <span
             class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"

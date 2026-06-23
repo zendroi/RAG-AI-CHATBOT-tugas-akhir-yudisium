@@ -8,3 +8,4 @@ CLAUDE.md
 .tesseract-cache/
 .claude
 database/chat.json
+.DS_Store
