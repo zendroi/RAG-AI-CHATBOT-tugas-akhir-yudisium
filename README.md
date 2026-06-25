@@ -2,6 +2,8 @@
 
 Chatbot web RAG berbahasa Indonesia untuk membantu mahasiswa bertanya seputar Tugas Akhir, sidang TA, pembimbing, yudisium, kelulusan, dan administrasi akademik terkait. Bot tertanam di homepage web (login mahasiswa), memakai Gemini sebagai model utama, dan Groq sebagai fallback jika Gemini terkena quota/rate limit.
 
+https://sruhh-ssc-chatbot.up.railway.app/
+
 ## Fitur
 
 - Chatbot web (widget chat di homepage, perlu login).
